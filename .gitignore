@@ -1,44 +1,35 @@
-# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
 
-# Compiled output
-/dist
-/tmp
-/out-tsc
-/bazel-out
+# Build folders
+bin/
+obj/
 
-# Node
-/node_modules
-npm-debug.log
-yarn-error.log
-
-# IDEs and editors
+# Rider
 .idea/
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
 
-# Visual Studio Code
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-!.vscode/mcp.json
-.history/*
+# Logs
+Logs/
 
-# Miscellaneous
-/.angular/cache
-.sass-cache/
-/connect.lock
-/coverage
-/libpeerconnection.log
-testem.log
-/typings
-__screenshots__/
+# Publish folder
+publish/
 
-# System files
-.DS_Store
+# NuGet
+*.nupkg
+
+# EF Migrations SQL
+*.sql
+
+# OS files
 Thumbs.db
+.DS_Store
+
+# User secrets (do not commit)
+appsettings.Development.json
+
+# Ignore local DBn*.mdf
+*.ldf
