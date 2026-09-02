@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Property image unavailable</title>
+  <desc id="desc">A simple architectural placeholder image.</desc>
+  <rect width="1200" height="800" fill="#e9ebe7"/>
+  <rect x="120" y="360" width="960" height="300" fill="#172033"/>
+  <path d="M80 360 600 110l520 250Z" fill="#b06a3b"/>
+  <rect x="220" y="440" width="150" height="220" fill="#e9ebe7"/>
+  <rect x="470" y="440" width="150" height="120" fill="#e9ebe7"/>
+  <rect x="720" y="440" width="150" height="120" fill="#e9ebe7"/>
+  <rect x="470" y="600" width="150" height="60" fill="#b06a3b"/>
+</svg>

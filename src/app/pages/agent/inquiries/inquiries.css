@@ -1,0 +1,21 @@
+.inquiries-page { min-height: 100vh; padding: 4rem 7%; background: #f7f7f5; color: #172033; }
+.page-header { max-width: 760px; margin-bottom: 2rem; }
+.page-header > a { color: #69707d; text-decoration: none; }
+.eyebrow { display: block; margin-top: 2rem; color: #b06a3b; font-size: .75rem; font-weight: 800; letter-spacing: .16em; }
+h1 { margin: .7rem 0; font-size: clamp(2.4rem, 5vw, 4rem); }
+.page-header p { color: #69707d; }
+.inquiry-list { display: grid; gap: 1rem; max-width: 980px; }
+.inquiry-card { padding: 1.8rem; background: #fff; border: 1px solid #e4e4df; border-left: 4px solid #d8d9d4; }
+.inquiry-card.unread { border-left-color: #b06a3b; }
+.mail-header { display: flex; justify-content: space-between; gap: 1rem; align-items: center; margin-bottom: 1rem; }
+.inquiry-state { color: #b06a3b; font-size: .72rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.mail-header time { color: #69707d; font-size: .85rem; }
+.email-template { background: #f8f8f7; border: 1px solid #ebebe7; border-radius: 12px; padding: 1.5rem; color: #1f2937; }
+.mail-line { margin: 0 0 0.8rem; line-height: 1.7; }
+.email-template strong { color: #111827; }
+.email-template blockquote { margin: 0.25rem 0 1rem; padding: 1rem 1.1rem; background: #fff; border-left: 4px solid #c5673e; border-radius: 8px; color: #374151; line-height: 1.7; }
+.signoff { margin-top: 1rem; }
+.inquiry-card button { margin-top: 1rem; padding: .65rem .8rem; border: 0; background: #172033; color: #fff; cursor: pointer; }
+.status, .empty-state { padding: 3rem; text-align: center; color: #69707d; }
+.error { color: #a23d34; }
+@media (max-width: 600px) { .inquiries-page { padding: 2rem 1rem; } .mail-header { display: block; } }

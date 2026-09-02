@@ -1,0 +1,831 @@
+<div class="home-page">
+
+  <!-- =====================================================
+       NAVBAR
+  ====================================================== -->
+
+  <header class="navbar">
+
+    <div class="navbar-inner">
+
+      <!-- LOGO -->
+
+      <a routerLink="/home" class="logo">
+        <span class="logo-mark">◆</span>
+        <span>Urban<span class="logo-accent">Nest</span></span>
+      </a>
+
+
+      <!-- NAVIGATION -->
+
+      <nav class="main-nav">
+
+        <a routerLink="/home">
+          Home
+        </a>
+
+        <a href="#properties">
+          Properties
+        </a>
+
+        <a href="#about">
+          About
+        </a>
+
+        <a href="#services">
+          Services
+        </a>
+
+        <a href="#contact">
+          Contact
+        </a>
+
+      </nav>
+
+
+      <!-- ACTIONS -->
+
+      <div class="nav-actions">
+
+        <a
+          routerLink="/login"
+          class="login-link"
+        >
+          Login
+        </a>
+
+        <a
+          routerLink="/register"
+          class="start-button"
+        >
+          Get Started
+        </a>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- =====================================================
+       HERO SECTION
+  ====================================================== -->
+
+  <section class="hero-section">
+
+    <div class="hero-content">
+
+      <div class="hero-label">
+        <span class="hero-line"></span>
+        PREMIUM REAL ESTATE
+      </div>
+
+
+      <h1>
+
+        Simplifying Property
+
+        <br>
+
+        <em>Buying, Selling</em>
+
+        &amp; Renting
+
+      </h1>
+
+
+      <p class="hero-description">
+
+        Discover exceptional properties in prime locations.
+        Find a place that matches your lifestyle, vision and future.
+
+      </p>
+
+
+      <div class="hero-buttons">
+
+        <a
+          href="#properties"
+          class="primary-button"
+        >
+          Explore Properties
+          <span>↗</span>
+        </a>
+
+
+        <a
+          href="#about"
+          class="secondary-button"
+        >
+          Learn More
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <!-- HERO IMAGE -->
+
+    <div class="hero-image-container">
+
+      <img
+        src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=90"
+        alt="Luxury Modern Villa"
+        class="hero-image"
+        (error)="lifestyleImageFallback($event)"
+      >
+
+
+      <div class="hero-image-overlay"></div>
+
+
+      <!-- FEATURED CARD -->
+
+      <div class="hero-featured-card">
+
+        <span class="featured-label">
+          FEATURED PROPERTY
+        </span>
+
+        <h3>
+          Modern Luxury Villa
+        </h3>
+
+        <p>
+          📍 Pune, Maharashtra
+        </p>
+
+
+        <div class="featured-card-bottom">
+
+          <strong>
+            ₹2.85 Cr
+          </strong>
+
+          <span>
+            01
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =====================================================
+       ABOUT SECTION
+  ====================================================== -->
+
+  <section
+    id="about"
+    class="about-section"
+  >
+
+    <div class="about-number">
+      01
+    </div>
+
+
+    <div class="about-heading">
+
+      <span class="section-label">
+        ABOUT URBANNEST
+      </span>
+
+      <h2>
+
+        Connecting People
+
+        <br>
+
+        <em>With Properties</em>
+
+      </h2>
+
+    </div>
+
+
+    <div class="about-content">
+
+      <p class="about-main-text">
+
+        We make finding your dream property simple,
+        transparent and stress-free.
+
+      </p>
+
+
+      <p>
+
+        From premium apartments to luxury villas,
+        our platform connects you with properties
+        that truly fit your lifestyle.
+
+      </p>
+
+
+      <a
+        href="#properties"
+        class="text-link"
+      >
+        Discover Properties →
+      </a>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =====================================================
+       FEATURED PROPERTIES
+  ====================================================== -->
+
+  <section
+    id="properties"
+    class="properties-section"
+  >
+
+    <div class="section-header">
+
+      <div>
+
+        <span class="section-label">
+          02 — FEATURED
+        </span>
+
+        <h2>
+
+          Exceptional
+          <em>Properties</em>
+
+        </h2>
+
+      </div>
+
+
+      <a
+        routerLink="/properties"
+        class="view-all-link"
+      >
+        View All Properties →
+      </a>
+
+    </div>
+
+
+    <!-- LOADING -->
+
+    @if (propertiesLoading) {
+
+      <div class="loading-message">
+
+        <div class="loader"></div>
+
+        <span>
+          Loading featured properties...
+        </span>
+
+      </div>
+
+    }
+
+
+    <!-- ERROR -->
+
+    @else if (propertiesError) {
+
+      <div class="status-message error-message">
+
+        {{ propertiesError }}
+
+      </div>
+
+    }
+
+
+    <!-- NO DATA -->
+
+    @else if (!properties || properties.length === 0) {
+
+      <div class="status-message">
+
+        No properties available.
+
+      </div>
+
+    }
+
+
+    <!-- PROPERTIES -->
+
+    @else {
+
+      <div class="property-grid">
+
+        @for (
+          property of properties;
+          track property.id
+        ) {
+
+          <article class="property-card">
+
+            <!-- IMAGE -->
+
+            <div class="property-image-wrapper">
+
+              <a
+                [routerLink]="[
+                  '/properties',
+                  property.id
+                ]"
+                class="property-image-link"
+              >
+
+                <img
+                  [src]="imageFor(property)"
+                  [alt]="property.title"
+                  class="property-image"
+                  loading="lazy"
+                  (error)="propertyImageFallback($event)"
+                >
+
+              </a>
+
+
+              <!-- STATUS -->
+
+              <span class="property-status">
+
+                {{
+                  getPropertyStatus(property)
+                }}
+
+              </span>
+
+
+              <!-- FAVORITE -->
+
+              <button
+                type="button"
+                class="favorite-button"
+                (click)="toggleFavorite(property)"
+                [attr.aria-label]="
+                  favoriteIds.has(property.id)
+                    ? 'Remove from favorites'
+                    : 'Add to favorites'
+                "
+              >
+
+                {{
+                  favoriteIds.has(property.id)
+                    ? '♥'
+                    : '♡'
+                }}
+
+              </button>
+
+            </div>
+
+
+            <!-- PROPERTY DETAILS -->
+
+            <div class="property-details">
+
+              <span class="property-type">
+
+                {{
+                  getPropertyType(property)
+                }}
+
+              </span>
+
+
+              <h3>
+
+                {{ property.title }}
+
+              </h3>
+
+
+              <p class="property-location">
+
+                <span>📍</span>
+
+                {{
+                  getPropertyLocation(property)
+                }}
+
+              </p>
+
+
+              <div class="property-features">
+
+                <span>
+                  🛏
+                  {{ property.bedrooms || 0 }}
+                  Beds
+                </span>
+
+                <span>
+                  🛁
+                  {{ property.bathrooms || 0 }}
+                  Baths
+                </span>
+
+                <span>
+                  ⌂
+                  {{ property.area || 0 }}
+                  {{ getAreaUnit(property) }}
+                </span>
+
+              </div>
+
+
+              <div class="property-footer">
+
+                <strong class="property-price">
+
+                  {{
+                    property.price
+                      | currency:'INR':'symbol':'1.0-0'
+                  }}
+
+                </strong>
+
+
+                <a
+                  [routerLink]="[
+                    '/properties',
+                    property.id
+                  ]"
+                  class="view-property"
+                >
+
+                  View →
+
+                </a>
+
+              </div>
+
+            </div>
+
+          </article>
+
+        }
+
+      </div>
+
+    }
+
+
+    <!-- FAVORITE ERROR -->
+
+    @if (favoriteError) {
+
+      <div class="favorite-error">
+
+        {{ favoriteError }}
+
+      </div>
+
+    }
+
+  </section>
+
+
+
+  <!-- =====================================================
+       STATISTICS
+  ====================================================== -->
+
+  <section class="statistics-section">
+
+    <div class="stat-item">
+
+      <strong>
+        10K+
+      </strong>
+
+      <span>
+        Properties Listed
+      </span>
+
+    </div>
+
+
+    <div class="stat-item">
+
+      <strong>
+        5K+
+      </strong>
+
+      <span>
+        Happy Customers
+      </span>
+
+    </div>
+
+
+    <div class="stat-item">
+
+      <strong>
+        100+
+      </strong>
+
+      <span>
+        Trusted Agents
+      </span>
+
+    </div>
+
+
+    <div class="stat-item">
+
+      <strong>
+        95%
+      </strong>
+
+      <span>
+        Customer Satisfaction
+      </span>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =====================================================
+       SERVICES
+  ====================================================== -->
+
+  <section
+    id="services"
+    class="services-section"
+  >
+
+    <div class="services-heading">
+
+      <div class="about-number">
+        03
+      </div>
+
+      <div>
+
+        <span class="section-label">
+          WHAT WE OFFER
+        </span>
+
+        <h2>
+
+          Discover The Facilities
+
+          <br>
+
+          <em>We Offer</em>
+
+        </h2>
+
+      </div>
+
+    </div>
+
+
+    <div class="services-grid">
+
+      @for (
+        service of services;
+        track service.title
+      ) {
+
+        <a
+          [routerLink]="service.route"
+          class="service-card"
+        >
+
+          <div class="service-icon">
+            {{ service.icon }}
+          </div>
+
+
+          <h3>
+            {{ service.title }}
+          </h3>
+
+
+          <p>
+            {{ service.description }}
+          </p>
+
+
+          <span class="service-arrow">
+            ↗
+          </span>
+
+        </a>
+
+      }
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =====================================================
+       CTA
+  ====================================================== -->
+
+  <section class="cta-section">
+
+    <div class="cta-image-wrapper">
+
+      <img
+        src="https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1600&q=90"
+        alt="Luxury Interior"
+        class="cta-image"
+        (error)="lifestyleImageFallback($event)"
+      >
+
+    </div>
+
+
+    <div class="cta-content">
+
+      <span class="cta-label">
+        FIND YOUR NEXT HOME
+      </span>
+
+
+      <h2>
+
+        Your Dream Property
+
+        <br>
+
+        Is <em>Waiting.</em>
+
+      </h2>
+
+
+      <a
+        routerLink="/properties"
+        class="primary-button"
+      >
+
+        Explore Properties ↗
+
+      </a>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =====================================================
+       FOOTER
+  ====================================================== -->
+
+  <footer
+    id="contact"
+    class="footer"
+  >
+
+    <div class="footer-main">
+
+      <!-- BRAND -->
+
+      <div class="footer-brand">
+
+        <a
+          routerLink="/home"
+          class="logo footer-logo"
+        >
+
+          <span class="logo-mark">
+            ◆
+          </span>
+
+          Urban<span class="logo-accent">
+            Nest
+          </span>
+
+        </a>
+
+
+        <p>
+
+          Simplifying property buying,
+          selling and renting.
+
+        </p>
+
+      </div>
+
+
+      <!-- EXPLORE -->
+
+      <div class="footer-column">
+
+        <h4>
+          Explore
+        </h4>
+
+        <a routerLink="/home">
+          Home
+        </a>
+
+        <a routerLink="/properties">
+          Properties
+        </a>
+
+        <a href="#about">
+          About
+        </a>
+
+      </div>
+
+
+      <!-- SERVICES -->
+
+      <div class="footer-column">
+
+        <h4>
+          Services
+        </h4>
+
+        <a href="#services">
+          Property Search
+        </a>
+
+        <a href="#services">
+          Property Valuation
+        </a>
+
+        <a href="#services">
+          Agent Support
+        </a>
+
+      </div>
+
+
+      <!-- CONTACT -->
+
+      <div class="footer-column">
+
+        <h4>
+          Contact
+        </h4>
+
+        <span>
+          Pune, Maharashtra
+        </span>
+
+        <span>
+          9022187770
+        </span>
+
+        <span>
+          grutuja898@gmail.com
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <!-- FOOTER BOTTOM -->
+
+    <div class="footer-bottom">
+
+      <span>
+        © 2026 UrbanNest.
+        All Rights Reserved.
+      </span>
+
+
+      <div>
+
+        <a href="#">
+          Privacy
+        </a>
+
+        <a href="#">
+          Terms
+        </a>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+</div>

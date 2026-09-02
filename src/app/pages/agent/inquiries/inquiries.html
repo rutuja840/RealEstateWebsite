@@ -1,0 +1,64 @@
+<main class="inquiries-page">
+  <header class="page-header">
+    <a routerLink="/agent">Back to dashboard</a>
+    <span class="eyebrow">CLIENT CONVERSATIONS</span>
+    <h1>Customer inquiries</h1>
+    <p>Review questions and visit requests connected to your listings.</p>
+  </header>
+
+  @if (loading) {
+    <p class="status">Loading inquiries...</p>
+  } @else if (errorMessage) {
+    <p class="status error">{{ errorMessage }}</p>
+  } @else if (!inquiries.length) {
+    <section class="empty-state">
+      <h2>No inquiries yet.</h2>
+      <p>New customer questions will appear here.</p>
+    </section>
+  } @else {
+    <section class="inquiry-list" aria-label="Customer inquiries">
+      @for (inquiry of inquiries; track inquiry.id) {
+        <article class="inquiry-card" [class.unread]="!inquiry.isRead">
+          <div class="mail-header">
+            <span class="inquiry-state">{{ inquiry.isRead ? 'Read' : 'New' }}</span>
+            <time>{{ inquiry.createdAt | date:'medium' }}</time>
+          </div>
+
+          <div class="email-template">
+            <p class="mail-line">Hello {{ agentName }},</p>
+
+            <p class="mail-line">
+              You have received a new inquiry for your property:
+              <strong>{{ inquiry.propertyTitle || 'Property inquiry' }}</strong>
+            </p>
+
+            <p class="mail-line">
+              From: {{ inquiry.name }} ({{ inquiry.email }})
+            </p>
+
+            <p class="mail-line">
+              Phone: {{ getCustomerPhone(inquiry) }}
+            </p>
+
+            <p class="mail-line">Message:</p>
+            <blockquote>{{ inquiry.message }}</blockquote>
+
+            @if (inquiry.preferredVisitDate) {
+              <p class="mail-line">
+                Preferred Visit Date: {{ formatPreferredVisitDate(inquiry.preferredVisitDate) }}
+              </p>
+            }
+
+            <p class="mail-line signoff">
+              Please login to the admin panel to view and respond to this inquiry.
+            </p>
+          </div>
+
+          @if (!inquiry.isRead) {
+            <button type="button" (click)="markRead(inquiry)">Mark as read</button>
+          }
+        </article>
+      }
+    </section>
+  }
+</main>

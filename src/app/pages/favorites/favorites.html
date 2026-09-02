@@ -1,0 +1,37 @@
+<main class="favorites-page">
+	<header class="page-header">
+		<span class="eyebrow">YOUR COLLECTION</span>
+		<h1>Saved properties</h1>
+		<p>Keep the homes you love close while you compare your next move.</p>
+	</header>
+
+	@if (loading) {
+		<p class="status">Loading favorites...</p>
+	} @else if (errorMessage) {
+		<div class="status error">
+			<p>{{ errorMessage }}</p>
+			<a routerLink="/login">Log in again</a>
+		</div>
+	} @else if (!favorites.length) {
+		<section class="empty-state">
+			<h2>Your shortlist is waiting.</h2>
+			<p>Save a property from the listings page and it will appear here.</p>
+			<a routerLink="/properties">Explore properties</a>
+		</section>
+	} @else {
+		<section class="favorite-grid">
+			@for (favorite of favorites; track favorite.id) {
+				<article class="favorite-card">
+					<a [routerLink]="['/properties', favorite.propertyId]">
+						<img [src]="imageFor(favorite)" [alt]="favorite.property?.title || 'Saved property'" />
+					</a>
+					<div>
+						<h2>{{ favorite.property?.title || 'Saved property #' + favorite.propertyId }}</h2>
+						<p>{{ favorite.property?.location || 'Property details available soon' }}</p>
+						<button type="button" (click)="remove(favorite)">Remove</button>
+					</div>
+				</article>
+			}
+		</section>
+	}
+</main>

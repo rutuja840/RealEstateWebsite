@@ -1,0 +1,257 @@
+<div class="register-page">
+
+  <div class="register-container">
+
+
+    <!-- LEFT SIDE -->
+
+    <div class="register-image">
+
+      <div class="image-overlay">
+
+        <span class="brand">
+          ◆ UrbanNest
+        </span>
+
+        <h1>
+          Find a place
+          <br>
+          you can call home.
+        </h1>
+
+        <p>
+          Discover premium properties,
+          connect with trusted agents
+          and find your perfect home.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- RIGHT SIDE -->
+
+    <div class="register-card">
+
+      <div class="register-header">
+
+        <span class="mobile-brand">
+          ◆ UrbanNest
+        </span>
+
+        <h2>
+          Create Account
+        </h2>
+
+        <p>
+          Join UrbanNest and find your
+          dream property.
+        </p>
+
+      </div>
+
+
+      <!-- SUCCESS MESSAGE -->
+
+      <div
+        class="success-message"
+        *ngIf="successMessage">
+
+        ✓ {{ successMessage }}
+
+      </div>
+
+
+      <!-- ERROR MESSAGE -->
+
+      <div
+        class="error-message"
+        *ngIf="errorMessage">
+
+        {{ errorMessage }}
+
+      </div>
+
+
+      <form
+        (ngSubmit)="register()"
+        #registerForm="ngForm">
+
+
+        <!-- FULL NAME -->
+
+        <div class="form-group">
+
+          <label>
+            Full Name
+          </label>
+
+          <input
+            type="text"
+            name="fullName"
+            [(ngModel)]="registerData.fullName"
+            placeholder="Enter your full name"
+            required
+          />
+
+        </div>
+
+
+        <!-- EMAIL -->
+
+        <div class="form-group">
+
+          <label>
+            Email Address
+          </label>
+
+          <input
+            type="email"
+            name="email"
+            [(ngModel)]="registerData.email"
+            placeholder="Enter your email"
+            required
+          />
+
+        </div>
+
+
+        <!-- PHONE -->
+
+        <div class="form-group">
+
+          <label>
+            Phone Number
+          </label>
+
+          <input
+            type="tel"
+            name="phoneNumber"
+            [(ngModel)]="registerData.phoneNumber"
+            placeholder="Enter 10 digit phone number"
+            maxlength="10"
+            required
+          />
+
+        </div>
+
+
+        <!-- ROLE -->
+
+        <div class="form-group">
+
+          <label>
+            Register As
+          </label>
+
+          <select
+            name="role"
+            [(ngModel)]="registerData.role">
+
+            <option value="User">
+              User
+            </option>
+
+            <option value="Agent">
+              Agent
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- PASSWORD -->
+
+        <div class="form-group">
+
+          <label>
+            Password
+          </label>
+
+          <input
+            type="password"
+            name="password"
+            [(ngModel)]="registerData.password"
+            placeholder="Create a password"
+            required
+          />
+
+        </div>
+
+
+        <!-- CONFIRM PASSWORD -->
+
+        <div class="form-group">
+
+          <label>
+            Confirm Password
+          </label>
+
+          <input
+            type="password"
+            name="confirmPassword"
+            [(ngModel)]="registerData.confirmPassword"
+            placeholder="Confirm your password"
+            required
+          />
+
+        </div>
+
+
+        <!-- TERMS -->
+
+        <div class="terms">
+
+          <input
+            type="checkbox"
+            required
+          />
+
+          <span>
+            I agree to the Terms & Conditions
+            and Privacy Policy.
+          </span>
+
+        </div>
+
+
+        <!-- BUTTON -->
+
+        <button
+          type="submit"
+          class="register-button"
+          [disabled]="loading">
+
+          <span *ngIf="!loading">
+            Create Account
+          </span>
+
+          <span *ngIf="loading">
+            Creating Account...
+          </span>
+
+        </button>
+
+
+      </form>
+
+
+      <!-- LOGIN -->
+
+      <div class="login-link">
+
+        Already have an account?
+
+        <a routerLink="/login">
+          Login
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

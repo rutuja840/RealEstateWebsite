@@ -1,0 +1,123 @@
+<div class="property-page">
+
+  <div class="page-header">
+
+    <div>
+      <span class="small-title">
+        OUR PROPERTIES
+      </span>
+
+      <h1>
+        Exceptional Properties
+      </h1>
+
+      <p>
+        Discover properties that match
+        your lifestyle and future.
+      </p>
+    </div>
+
+  </div>
+
+
+  <!-- Loading -->
+
+  <div
+    class="loading"
+    *ngIf="loading">
+
+    Loading properties...
+
+  </div>
+
+
+  <!-- Error -->
+
+  <div
+    class="error"
+    *ngIf="errorMessage">
+
+    {{ errorMessage }}
+
+  </div>
+
+
+  <!-- Properties -->
+
+  <div
+    class="property-grid"
+    *ngIf="!loading">
+
+      <article
+        class="property-card"
+      *ngFor="let property of properties">
+
+
+      <a class="property-image" [routerLink]="['/properties', property.id]">
+
+        <img
+          [src]="imageFor(property)"
+          [alt]="property.title"
+          (error)="imageFallback($event)"
+        >
+
+        <span class="sale-badge">
+          FOR SALE
+        </span>
+
+        <button class="favorite-btn">
+          ♡
+        </button>
+
+      </a>
+
+
+      <div class="property-content">
+
+        <span class="property-type">
+          {{ getPropertyType(property) }}
+        </span>
+
+        <h2>
+          {{ property.title }}
+        </h2>
+
+        <p class="location">
+          📍 {{ getLocation(property) }}
+        </p>
+
+        <div class="property-info">
+
+          <span>
+            🛏 {{ property.bedrooms }} Beds
+          </span>
+
+          <span>
+            🛁 {{ property.bathrooms }} Baths
+          </span>
+
+          <span>
+            📐 {{ property.area }} {{ property.areaUnit || 'sq.ft' }}
+          </span>
+
+        </div>
+
+        <div class="property-bottom">
+
+          <strong>
+            ₹{{ property.price | number }}
+          </strong>
+
+          <a class="details-btn" [routerLink]="['/properties', property.id]">
+            View Details →
+          </a>
+
+        </div>
+
+      </div>
+
+      </article>
+
+    </div>
+
+</div>
