@@ -1,0 +1,512 @@
+<div class="property-page">
+
+ 
+  <!-- HEADER -->
+  
+
+  <header class="page-header">
+
+    <div>
+
+      <span class="eyebrow">
+        URBANNEST
+      </span>
+
+      <h1>
+        Find Your
+        <em>Perfect Property</em>
+      </h1>
+
+      <p>
+        Explore premium properties in the best locations.
+      </p>
+
+    </div>
+
+  </header>
+
+
+ 
+  <!-- SEARCH PANEL -->
+  
+  <section class="search-panel">
+
+    <div class="search-title">
+
+      <h2>
+        Search Properties
+      </h2>
+
+      <p>
+        Find a property according to your requirements.
+      </p>
+
+    </div>
+
+
+    <!-- LOCATION -->
+
+    <div class="field">
+
+      <label>
+        Location
+      </label>
+
+      <input
+        type="text"
+        [(ngModel)]="filters.location"
+        placeholder="Enter location"
+      >
+
+    </div>
+
+
+    <!-- PROPERTY TYPE -->
+
+    <div class="field">
+
+      <label>
+        Property Type
+      </label>
+
+      <select
+        [(ngModel)]="filters.propertyType"
+      >
+
+        <option value="">
+          All Types
+        </option>
+
+        <option value="Apartment">
+          Apartment
+        </option>
+
+        <option value="Villa">
+          Villa
+        </option>
+
+        <option value="Penthouse">
+          Penthouse
+        </option>
+
+        <option value="House">
+          House
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <!-- MIN PRICE -->
+
+    <div class="field">
+
+      <label>
+        Min Price
+      </label>
+
+      <input
+        type="number"
+        [(ngModel)]="filters.minPrice"
+        placeholder="₹ Min"
+      >
+
+    </div>
+
+
+    <!-- MAX PRICE -->
+
+    <div class="field">
+
+      <label>
+        Max Price
+      </label>
+
+      <input
+        type="number"
+        [(ngModel)]="filters.maxPrice"
+        placeholder="₹ Max"
+      >
+
+    </div>
+
+
+    <!-- BEDROOMS -->
+
+    <div class="field">
+
+      <label>
+        Bedrooms
+      </label>
+
+      <select
+        [(ngModel)]="filters.bedrooms"
+      >
+
+        <option [ngValue]="undefined">
+          Any
+        </option>
+
+        <option [ngValue]="1">
+          1+
+        </option>
+
+        <option [ngValue]="2">
+          2+
+        </option>
+
+        <option [ngValue]="3">
+          3+
+        </option>
+
+        <option [ngValue]="4">
+          4+
+        </option>
+
+        <option [ngValue]="5">
+          5+
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <!-- BATHROOMS -->
+
+    <div class="field">
+
+      <label>
+        Bathrooms
+      </label>
+
+      <select
+        [(ngModel)]="filters.bathrooms"
+      >
+
+        <option [ngValue]="undefined">
+          Any
+        </option>
+
+        <option [ngValue]="1">
+          1+
+        </option>
+
+        <option [ngValue]="2">
+          2+
+        </option>
+
+        <option [ngValue]="3">
+          3+
+        </option>
+
+        <option [ngValue]="4">
+          4+
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <!-- FURNISHED -->
+
+    <div class="field">
+
+      <label>
+        Furnishing
+      </label>
+
+      <select
+        [(ngModel)]="filters.furnishedStatus"
+      >
+
+        <option value="">
+          Any
+        </option>
+
+        <option value="Furnished">
+          Furnished
+        </option>
+
+        <option value="Semi-Furnished">
+          Semi Furnished
+        </option>
+
+        <option value="Unfurnished">
+          Unfurnished
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <!-- BUTTONS -->
+
+    <div class="search-actions">
+
+      <button
+        class="search-btn"
+        type="button"
+        (click)="search()"
+      >
+
+        Search Properties →
+
+      </button>
+
+
+      <button
+        class="clear-btn"
+        type="button"
+        (click)="clearFilters()"
+      >
+
+        Clear
+
+      </button>
+
+    </div>
+
+  </section>
+
+
+  
+  <!-- RESULT HEADER -->
+ 
+
+  <section class="results-header">
+
+    <div>
+
+      <span class="eyebrow">
+        PROPERTY COLLECTION
+      </span>
+
+      <h2>
+       {{ propertyList.length }}
+        Properties Found
+      </h2>
+
+    </div>
+
+  </section>
+
+
+ 
+  <!-- FAVORITE ERROR -->
+  
+  @if (favoriteError) {
+
+    <div class="empty">
+
+      <p>
+        {{ favoriteError }}
+      </p>
+
+    </div>
+
+  }
+
+
+  
+  <!-- LOADING -->
+  
+  @if (loading) {
+
+    <div class="loading">
+
+      <div class="spinner"></div>
+
+      <p>
+        Finding properties...
+      </p>
+
+    </div>
+
+  }
+
+
+ 
+  <!-- ERROR -->
+
+
+  @else if (errorMessage) {
+
+    <div class="empty">
+
+      <h3>
+        Something went wrong
+      </h3>
+
+      <p>
+        {{ errorMessage }}
+      </p>
+
+    </div>
+
+  }
+
+
+  
+  <!-- EMPTY -->
+ 
+ @else if (propertyList.length === 0){
+
+    <div class="empty">
+
+      <h3>
+        No Properties Found
+      </h3>
+
+      <p>
+        Try changing your search filters.
+      </p>
+
+      <button
+        class="search-btn"
+        type="button"
+        (click)="clearFilters()"
+      >
+
+        Show All Properties
+
+      </button>
+
+    </div>
+
+  }
+
+
+ 
+  <!-- PROPERTY GRID -->
+   
+
+  @else {
+
+    <div class="property-grid">
+
+     @for (
+  property of propertyList;
+  track property.id
+) {
+        <article class="property-card">
+
+
+          <!-- IMAGE -->
+
+          <div class="property-image">
+
+            <img
+              [src]="imageFor(property)"
+              [alt]="property.title"
+              (error)="imageFallback($event)"
+            >
+
+            <span class="status">
+              {{ getStatus(property) }}
+            </span>
+
+          </div>
+
+
+          <!-- CONTENT -->
+
+          <div class="property-content">
+
+            <span class="property-type">
+
+              {{
+                property.propertyType
+                || property.propertyTypeName
+                || 'PROPERTY'
+              }}
+
+            </span>
+
+
+            <h3>
+              {{ property.title }}
+            </h3>
+
+
+            <p class="location">
+
+              📍 {{ getLocation(property) }}
+
+            </p>
+
+
+            <div class="features">
+
+              <span>
+                🛏 {{ property.bedrooms }} Beds
+              </span>
+
+              <span>
+                🛁 {{ property.bathrooms }} Baths
+              </span>
+
+              <span>
+                ⌂ {{ property.area }}
+                {{ property.areaUnit || 'sq.ft' }}
+              </span>
+
+            </div>
+
+
+            <div class="property-bottom">
+
+              <strong>
+
+                {{
+                  property.price
+                  | currency:'INR':'symbol':'1.0-0'
+                }}
+
+              </strong>
+
+
+              <div class="property-actions">
+
+                <button
+                  type="button"
+                  class="favorite-btn"
+                  (click)="toggleFavorite(property)"
+                  [class.active]="favorites.has(property.id)"
+                >
+
+                  {{ favorites.has(property.id) ? '♥' : '♡' }}
+
+                </button>
+
+
+                <a
+                  [routerLink]="[
+                    '/properties',
+                    property.id
+                  ]"
+                  class="view-btn"
+                >
+
+                  View →
+
+                </a>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </article>
+
+      }
+
+    </div>
+
+  }
+
+</div>

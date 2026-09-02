@@ -1,0 +1,120 @@
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: calc(100vh - 4.5rem);
+  box-sizing: border-box;
+  padding: 4.5rem 1rem 2rem;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 614px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 3.15rem 3rem 4.2rem;
+  border: 1px solid #e1e1e1;
+  border-radius: 17px;
+  background: #fff;
+}
+
+.auth-card h1 {
+  margin: 0 0 2.35rem;
+  font-size: 2.2rem;
+  line-height: 1.1;
+}
+
+.auth-card label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 0.7rem;
+}
+
+.auth-card input {
+  height: 58px;
+  box-sizing: border-box;
+  padding: 0 1.2rem;
+  border: 2px solid #d8d8d8;
+  border-radius: 13px;
+  background: #fff;
+  color: #111;
+  font-size: 1.45rem;
+}
+
+.auth-card input:focus {
+  outline: 2px solid #2563eb;
+  border-color: #2563eb;
+  outline-offset: 1px;
+}
+
+.auth-card input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 100px #e8f0fd inset;
+  -webkit-text-fill-color: #111;
+}
+
+.field-error {
+  color: #dc2626;
+  font-size: 0.8rem;
+  margin: 0.2rem 0 0;
+}
+
+.form-error {
+  color: #dc2626;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 13px;
+  padding: 0.9rem;
+  font-size: 1.1rem;
+  margin: 1.45rem 0 0;
+}
+
+.auth-card button {
+  min-height: 62px;
+  margin-top: 2.9rem;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: 13px;
+  background: #2563eb;
+  color: #fff;
+  font-size: 1.45rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.auth-card button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.switch-link {
+  text-align: center;
+  font-size: 1.1rem;
+  margin: 2.2rem 0 0;
+}
+
+.switch-link a {
+  color: #551a8b;
+}
+
+@media (max-width: 600px) {
+  .auth-container {
+    min-height: auto;
+    padding: 2rem 1rem;
+  }
+
+  .auth-card {
+    padding: 2.25rem 1.5rem 2.75rem;
+  }
+
+  .auth-card h1 {
+    font-size: 2rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .auth-card input,
+  .auth-card button {
+    font-size: 1.2rem;
+  }
+}

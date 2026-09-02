@@ -1,0 +1,549 @@
+.property-page {
+
+  max-width: 1400px;
+
+  margin: 0 auto;
+
+  padding: 70px 50px;
+
+  background: #f8f7f3;
+
+  min-height: 100vh;
+
+  color: #102038;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.page-header {
+
+  margin-bottom: 50px;
+
+  max-width: 800px;
+}
+
+
+.eyebrow {
+
+  color: #bd6841;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  letter-spacing: 3px;
+}
+
+
+.page-header h1 {
+
+  font-family: Georgia, serif;
+
+  font-size: 60px;
+
+  line-height: 1.05;
+
+  margin: 15px 0;
+}
+
+
+.page-header h1 em {
+
+  color: #bd6841;
+
+  font-weight: normal;
+}
+
+
+.page-header p {
+
+  color: #687080;
+
+  font-size: 17px;
+}
+
+
+/* =========================================================
+   SEARCH PANEL
+========================================================= */
+
+.search-panel {
+
+  background: white;
+
+  border: 1px solid #ddd;
+
+  padding: 30px;
+
+  display: grid;
+
+  grid-template-columns:
+    2fr
+    1.2fr
+    1fr
+    1fr
+    1fr
+    1fr
+    1fr;
+
+  gap: 18px;
+
+  align-items: end;
+
+  box-shadow:
+    0 15px 40px rgba(0,0,0,.05);
+}
+
+
+.search-title {
+
+  grid-column: 1 / -1;
+
+  margin-bottom: 5px;
+}
+
+
+.search-title h2 {
+
+  font-family: Georgia, serif;
+
+  font-size: 28px;
+
+  margin: 0 0 5px;
+}
+
+
+.search-title p {
+
+  margin: 0;
+
+  color: #777;
+}
+
+
+/* =========================================================
+   FIELDS
+========================================================= */
+
+.field {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 7px;
+}
+
+
+.field label {
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  letter-spacing: 1px;
+
+  text-transform: uppercase;
+}
+
+
+.field input,
+.field select {
+
+  height: 46px;
+
+  border: 1px solid #d8d8d8;
+
+  padding: 0 12px;
+
+  background: white;
+
+  font-size: 14px;
+
+  outline: none;
+}
+
+
+.field input:focus,
+.field select:focus {
+
+  border-color: #bd6841;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.search-actions {
+
+  grid-column: 1 / -1;
+
+  display: flex;
+
+  gap: 12px;
+
+  margin-top: 10px;
+}
+
+
+.search-btn {
+
+  background: #101d32;
+
+  color: white;
+
+  border: none;
+
+  padding: 14px 25px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+
+.search-btn:hover {
+
+  background: #bd6841;
+}
+
+
+.clear-btn {
+
+  background: white;
+
+  border: 1px solid #bbb;
+
+  padding: 14px 25px;
+
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   RESULTS
+========================================================= */
+
+.results-header {
+
+  margin: 70px 0 30px;
+
+  display: flex;
+
+  justify-content: space-between;
+}
+
+
+.results-header h2 {
+
+  font-family: Georgia, serif;
+
+  font-size: 40px;
+
+  margin: 8px 0 0;
+}
+
+
+/* =========================================================
+   GRID
+========================================================= */
+
+.property-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 25px;
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.property-card {
+
+  background: white;
+
+  border: 1px solid #e3e3e3;
+
+  transition: .3s;
+
+  overflow: hidden;
+}
+
+
+.property-card:hover {
+
+  transform: translateY(-5px);
+
+  box-shadow:
+    0 20px 40px rgba(0,0,0,.10);
+}
+
+
+/* =========================================================
+   IMAGE
+========================================================= */
+
+.property-image {
+
+  height: 280px;
+
+  position: relative;
+
+  overflow: hidden;
+}
+
+
+.property-image img {
+
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: cover;
+
+  transition: .5s;
+}
+
+
+.property-card:hover img {
+
+  transform: scale(1.04);
+}
+
+
+.status {
+
+  position: absolute;
+
+  top: 15px;
+
+  left: 15px;
+
+  background: white;
+
+  padding: 8px 12px;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.property-content {
+
+  padding: 25px;
+}
+
+
+.property-type {
+
+  color: #bd6841;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  letter-spacing: 2px;
+}
+
+
+.property-content h3 {
+
+  font-family: Georgia, serif;
+
+  font-size: 25px;
+
+  line-height: 1.2;
+
+  margin: 10px 0;
+}
+
+
+.location {
+
+  color: #6c7480;
+
+  font-size: 14px;
+}
+
+
+.features {
+
+  border-top: 1px solid #ddd;
+
+  border-bottom: 1px solid #ddd;
+
+  padding: 15px 0;
+
+  margin-top: 18px;
+
+  display: flex;
+
+  gap: 15px;
+
+  flex-wrap: wrap;
+
+  color: #687080;
+
+  font-size: 12px;
+}
+
+
+.property-bottom {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-top: 20px;
+}
+
+
+.property-bottom strong {
+
+  font-size: 20px;
+}
+
+
+.view-btn {
+
+  color: #101d32;
+
+  font-weight: 700;
+
+  text-decoration: none;
+
+  border-bottom: 1px solid #101d32;
+
+  padding-bottom: 3px;
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.loading {
+
+  text-align: center;
+
+  padding: 100px;
+}
+
+
+.spinner {
+
+  width: 35px;
+
+  height: 35px;
+
+  border: 3px solid #ddd;
+
+  border-top-color: #bd6841;
+
+  border-radius: 50%;
+
+  animation: spin .8s linear infinite;
+
+  margin: auto;
+}
+
+
+@keyframes spin {
+
+  to {
+
+    transform: rotate(360deg);
+  }
+}
+
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.empty {
+
+  text-align: center;
+
+  padding: 100px;
+
+  background: white;
+
+  border: 1px solid #ddd;
+}
+
+
+.empty h3 {
+
+  font-family: Georgia, serif;
+
+  font-size: 30px;
+}
+
+
+.empty p {
+
+  color: #777;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1100px) {
+
+  .search-panel {
+
+    grid-template-columns:
+      repeat(3, 1fr);
+  }
+
+  .property-grid {
+
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+}
+
+
+@media (max-width: 700px) {
+
+  .property-page {
+
+    padding: 40px 20px;
+  }
+
+  .page-header h1 {
+
+    font-size: 42px;
+  }
+
+  .search-panel {
+
+    grid-template-columns: 1fr;
+  }
+
+  .property-grid {
+
+    grid-template-columns: 1fr;
+  }
+}

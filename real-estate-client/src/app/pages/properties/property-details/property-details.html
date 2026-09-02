@@ -1,0 +1,446 @@
+<div class="property-details-page">
+
+  <!-- ===================================================== -->
+  <!-- LOADING -->
+  <!-- ===================================================== -->
+
+  @if (loading) {
+
+    <div class="loading-container">
+
+      <div class="spinner"></div>
+
+      <p>
+        Loading property...
+      </p>
+
+    </div>
+
+  }
+
+  <!-- ===================================================== -->
+  <!-- ERROR -->
+  <!-- ===================================================== -->
+
+  @else if (errorMessage) {
+
+    <div class="error-container">
+
+      <h2>
+        Unable to Load Property
+      </h2>
+
+      <p>
+        {{ errorMessage }}
+      </p>
+
+      <button
+        type="button"
+        class="retry-btn"
+        (click)="retry()"
+      >
+        Try Again
+      </button>
+
+      <a
+        routerLink="/properties"
+        class="back-btn"
+      >
+        ← Back to Properties
+      </a>
+
+    </div>
+
+  }
+
+  <!-- ===================================================== -->
+  <!-- PROPERTY -->
+  <!-- ===================================================== -->
+
+  @else if (property) {
+
+    <div class="property-details">
+
+      <!-- ================================================= -->
+      <!-- HEADER -->
+      <!-- ================================================= -->
+
+      <div class="details-header">
+
+        <div>
+
+          <span class="eyebrow">
+            URBANNEST
+          </span>
+
+          <h1>
+            {{ property.title }}
+          </h1>
+
+          <p class="location">
+            📍 {{ getLocation() }}
+          </p>
+
+        </div>
+
+        <a
+          routerLink="/properties"
+          class="back-link"
+        >
+          ← Back to Properties
+        </a>
+
+      </div>
+
+
+      <!-- ================================================= -->
+      <!-- IMAGE -->
+      <!-- ================================================= -->
+
+      <div class="gallery">
+
+        <div class="main-image">
+
+          <img
+            [src]="currentImage()"
+            [alt]="property.title"
+            class="main-property-image"
+            (error)="imageFallback($event)"
+          >
+
+          <span class="status">
+            {{ getStatus() }}
+          </span>
+
+          @if (getGalleryImages().length > 1) {
+            <button type="button" class="gallery-prev" (click)="showPreviousImage()" aria-label="Previous image">‹</button>
+            <button type="button" class="gallery-next" (click)="showNextImage()" aria-label="Next image">›</button>
+          }
+
+        </div>
+
+        @if (getGalleryImages().length > 1) {
+          <div class="thumbnails">
+            @for (image of getGalleryImages(); track image; let i = $index) {
+              <button
+                type="button"
+                class="thumbnail"
+                [class.selected]="selectedImageIndex === i"
+                (click)="selectImage(i)"
+                aria-label="View image {{ i + 1 }}"
+              >
+                <img [src]="image" [alt]="property.title + ' image ' + (i + 1)" (error)="imageFallback($event)" />
+              </button>
+            }
+          </div>
+        }
+
+      </div>
+
+
+      <!-- ================================================= -->
+      <!-- CONTENT -->
+      <!-- ================================================= -->
+
+      <div class="details-content">
+
+        <!-- =============================================== -->
+        <!-- LEFT -->
+        <!-- =============================================== -->
+
+        <div class="details-left">
+
+          <span class="property-type">
+            {{ getPropertyType() }}
+          </span>
+
+          <h2>
+            {{ property.title }}
+          </h2>
+
+          <p class="property-location">
+            📍 {{ getLocation() }}
+          </p>
+
+          <!-- ============================================= -->
+          <!-- FEATURES -->
+          <!-- ============================================= -->
+
+          <div class="features">
+
+            <div class="feature">
+
+              <span class="feature-icon">
+                🛏
+              </span>
+
+              <div>
+
+                <strong>
+                  {{ property.bedrooms }}
+                </strong>
+
+                <span>
+                  Bedrooms
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div class="feature">
+
+              <span class="feature-icon">
+                🛁
+              </span>
+
+              <div>
+
+                <strong>
+                  {{ property.bathrooms }}
+                </strong>
+
+                <span>
+                  Bathrooms
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div class="feature">
+
+              <span class="feature-icon">
+                ⌂
+              </span>
+
+              <div>
+
+                <strong>
+                  {{ property.area }}
+                </strong>
+
+                <span>
+                  {{ property.areaUnit || 'sq.ft' }}
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- ============================================= -->
+          <!-- DESCRIPTION -->
+          <!-- ============================================= -->
+
+          <div class="description">
+
+            <h3>
+              About This Property
+            </h3>
+
+            <p>
+              {{
+                property.description ||
+                'Premium property available at a prime location.'
+              }}
+            </p>
+
+          </div>
+
+
+          <!-- ============================================= -->
+          <!-- PROPERTY INFORMATION -->
+          <!-- ============================================= -->
+
+          <div class="property-info">
+
+            <h3>
+              Property Information
+            </h3>
+
+            <div class="info-grid">
+
+              <div>
+
+                <span>
+                  Property Type
+                </span>
+
+                <strong>
+                  {{ getPropertyType() }}
+                </strong>
+
+              </div>
+
+
+              <div>
+
+                <span>
+                  Status
+                </span>
+
+                <strong>
+                  {{ getStatus() }}
+                </strong>
+
+              </div>
+
+
+              <div>
+
+                <span>
+                  Bedrooms
+                </span>
+
+                <strong>
+                  {{ property.bedrooms }}
+                </strong>
+
+              </div>
+
+
+              <div>
+
+                <span>
+                  Bathrooms
+                </span>
+
+                <strong>
+                  {{ property.bathrooms }}
+                </strong>
+
+              </div>
+
+
+              <div>
+
+                <span>
+                  Area
+                </span>
+
+                <strong>
+                  {{ property.area }}
+                  {{ property.areaUnit || 'sq.ft' }}
+                </strong>
+
+              </div>
+
+
+              <div>
+
+                <span>
+                  Location
+                </span>
+
+                <strong>
+                  {{ getLocation() }}
+                </strong>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="map-section">
+            <h3>Exact Location</h3>
+            <p class="map-location">{{ getLocation() }}</p>
+            <div class="map-box">
+              <app-property-map
+                [latitude]="property.latitude"
+                [longitude]="property.longitude"
+                [title]="property.title"
+                [zoom]="14"
+              ></app-property-map>
+            </div>
+          </div>
+
+        </div>
+
+
+        <!-- =============================================== -->
+        <!-- RIGHT PRICE CARD -->
+        <!-- =============================================== -->
+
+        <aside class="price-card">
+
+          <span>
+            PRICE
+          </span>
+
+          <h2>
+
+            {{
+              property.price
+              | currency:'INR':'symbol':'1.0-0'
+            }}
+
+          </h2>
+
+          <p>
+            Final price may vary based on property details.
+          </p>
+
+          <button
+            type="button"
+            class="contact-btn"
+            (click)="toggleInquiryForm()"
+          >
+            {{ showInquiryForm ? 'Hide Form' : 'Contact Agent' }}
+          </button>
+
+          @if (showInquiryForm) {
+            <form class="inquiry-form" [formGroup]="inquiryForm" (ngSubmit)="submitInquiry()">
+              <div class="form-row">
+                <label for="inquiry-name">Name</label>
+                <input id="inquiry-name" type="text" formControlName="name" />
+              </div>
+
+              <div class="form-row">
+                <label for="inquiry-email">Email</label>
+                <input id="inquiry-email" type="email" formControlName="email" />
+              </div>
+
+              <div class="form-row">
+                <label for="inquiry-phone">Phone</label>
+                <input id="inquiry-phone" type="tel" formControlName="phone" />
+              </div>
+
+              <div class="form-row">
+                <label for="inquiry-date">Preferred visit date</label>
+                <input id="inquiry-date" type="date" formControlName="preferredVisitDate" />
+              </div>
+
+              <div class="form-row">
+                <label for="inquiry-message">Message</label>
+                <textarea id="inquiry-message" rows="4" formControlName="message"></textarea>
+              </div>
+
+              @if (inquiryError) {
+                <p class="inquiry-error">{{ inquiryError }}</p>
+              }
+
+              @if (inquirySuccess) {
+                <p class="inquiry-success">Inquiry submitted successfully. The agent will contact you soon.</p>
+              }
+
+              <button type="submit" class="submit-inquiry-btn" [disabled]="submittingInquiry">
+                {{ submittingInquiry ? 'Sending...' : 'Send Inquiry' }}
+              </button>
+            </form>
+          }
+
+        </aside>
+
+      </div>
+
+    </div>
+
+  }
+
+</div>

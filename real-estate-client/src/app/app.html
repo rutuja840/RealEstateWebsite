@@ -1,0 +1,13 @@
+<header class="app-header">
+	<a class="brand" routerLink="/home">Urban<span>Nest</span></a>
+	<nav aria-label="Main navigation">
+		<a routerLink="/properties">Properties</a>
+		@if (auth.isAuthenticated()) {
+			<a routerLink="/favorites">Favorites</a>
+			<a routerLink="/profile">Profile</a>
+			@if (auth.getRole()?.toLowerCase() === 'agent') { <a routerLink="/agent">Agent workspace</a> }
+			<button type="button" (click)="logout()">Log out</button>
+		}
+	</nav>
+</header>
+<router-outlet></router-outlet>
