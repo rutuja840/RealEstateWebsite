@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using RealEstate.DAL.Data;
 using RealEstate.DAL.Entities;
 using RealEstate.DAL.Interfaces;
@@ -15,9 +15,7 @@ namespace RealEstate.DAL.Repositories
             _context = context;
         }
 
-        
         // Get All Properties
-       
 
         public async Task<List<Property>> GetAllAsync()
         {
@@ -36,10 +34,7 @@ namespace RealEstate.DAL.Repositories
                 .ToListAsync();
         }
 
-        
         // Get Property By Id
-       
-
         public async Task<Property?> GetByIdAsync(int id)
         {
             return await _context.Properties
@@ -52,11 +47,9 @@ namespace RealEstate.DAL.Repositories
 
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
-
        
         // Get Properties By Agent
         
-
         public async Task<List<Property>>
             GetByAgentIdAsync(int agentId)
         {
@@ -73,10 +66,7 @@ namespace RealEstate.DAL.Repositories
                 .ToListAsync();
         }
 
-        
         // Advanced Search
-        
-
         public async Task<List<Property>> SearchAsync(
             string? city,
             decimal? minPrice,
@@ -180,10 +170,7 @@ namespace RealEstate.DAL.Repositories
                 .ToListAsync();
         }
 
-        // -----------------------------------------
         // Add Property
-        // -----------------------------------------
-
         public async Task<Property> AddAsync(
             Property property)
         {
@@ -194,9 +181,7 @@ namespace RealEstate.DAL.Repositories
             return property;
         }
 
-        // -----------------------------------------
         // Update Property
-        // -----------------------------------------
 
         public async Task UpdateAsync(
             Property property)

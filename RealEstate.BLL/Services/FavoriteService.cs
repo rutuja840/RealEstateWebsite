@@ -1,4 +1,4 @@
-﻿using RealEstate.BLL.DTOs.Favorite;
+using RealEstate.BLL.DTOs.Favorite;
 using RealEstate.BLL.Interfaces;
 using RealEstate.DAL.Entities;
 using RealEstate.DAL.Interfaces;
@@ -30,7 +30,6 @@ namespace RealEstate.BLL.Services
         {
             
             // Validate User
-            
 
             var userExists =
                 await _userRepository.ExistsAsync(userId);
@@ -43,7 +42,6 @@ namespace RealEstate.BLL.Services
 
             // Validate Property
             
-
             var propertyExists =
                 await _propertyRepository.ExistsAsync(propertyId);
 
@@ -53,9 +51,7 @@ namespace RealEstate.BLL.Services
                     "Property does not exist.");
             }
 
-            
             // Check Duplicate Favorite
-            
 
             var exists =
                 await _favoriteRepository
@@ -67,9 +63,7 @@ namespace RealEstate.BLL.Services
                     "Property is already added to favorites.");
             }
 
-           
             // Create Favorite
-            
 
             var favorite = new Favorite
             {
@@ -78,18 +72,14 @@ namespace RealEstate.BLL.Services
                 CreatedAt = DateTime.UtcNow
             };
 
-           
             // Save
            
-
             var createdFavorite =
                 await _favoriteRepository
                     .AddAsync(favorite);
-
             
             // Get Created Favorite with Property
             
-
             var favorites =
                 await _favoriteRepository
                     .GetByUserIdAsync(userId);
@@ -130,10 +120,7 @@ namespace RealEstate.BLL.Services
             return true;
         }
 
-        
         // CHECK FAVORITE
-        
-
         public async Task<bool> ExistsAsync(
             int userId,
             int propertyId)
@@ -158,10 +145,7 @@ namespace RealEstate.BLL.Services
                 .ToList();
         }
 
-        // =====================================================
         // MAP ENTITY TO DTO
-        // =====================================================
-
         private static FavoriteResponseDto MapToDto(
             Favorite favorite)
         {

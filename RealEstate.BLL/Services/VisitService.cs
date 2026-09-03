@@ -1,4 +1,4 @@
-﻿using RealEstate.BLL.DTOs.Visit;
+using RealEstate.BLL.DTOs.Visit;
 using RealEstate.BLL.Interfaces;
 using RealEstate.DAL.Entities;
 using RealEstate.DAL.Interfaces;
@@ -18,16 +18,15 @@ namespace RealEstate.BLL.Services
             _propertyRepository = propertyRepository;
         }
 
-        // =====================================================
+      
         // CREATE / SCHEDULE VISIT
-        // =====================================================
-
+       
         public async Task<VisitResponseDto> CreateAsync(
             CreateVisitDto request)
         {
-            // -------------------------------------------------
+           
             // Validation
-            // -------------------------------------------------
+            
 
             if (request.PropertyId <= 0)
             {
@@ -47,9 +46,9 @@ namespace RealEstate.BLL.Services
                     "Visit date must be in the future.");
             }
 
-            // -------------------------------------------------
+           
             // Get Property
-            // -------------------------------------------------
+            
 
             var property =
                 await _propertyRepository
@@ -61,9 +60,9 @@ namespace RealEstate.BLL.Services
                     "Property not found.");
             }
 
-            // -------------------------------------------------
+          
             // Create Visit
-            // -------------------------------------------------
+          
 
             var visit = new VisitSchedule
             {
@@ -84,17 +83,14 @@ namespace RealEstate.BLL.Services
                 CreatedAt = DateTime.UtcNow
             };
 
-            // -------------------------------------------------
+           
             // Save
-            // -------------------------------------------------
-
+           
             var createdVisit =
                 await _visitRepository
                     .AddAsync(visit);
 
-            // -------------------------------------------------
             // Get Complete Visit
-            // -------------------------------------------------
 
             var result =
                 await _visitRepository
@@ -128,10 +124,9 @@ namespace RealEstate.BLL.Services
             return MapToDto(visit);
         }
 
-        // =====================================================
+       
         // GET VISITS BY USER
-        // =====================================================
-
+        
         public async Task<List<VisitResponseDto>>
             GetByUserIdAsync(int userId)
         {
@@ -144,10 +139,7 @@ namespace RealEstate.BLL.Services
                 .ToList();
         }
 
-        // =====================================================
         // GET VISITS BY AGENT
-        // =====================================================
-
         public async Task<List<VisitResponseDto>>
             GetByAgentIdAsync(int agentId)
         {
@@ -160,10 +152,8 @@ namespace RealEstate.BLL.Services
                 .ToList();
         }
 
-        // =====================================================
         // UPDATE VISIT
-        // =====================================================
-
+       
         public async Task<bool> UpdateAsync(
             int id,
             string status,
@@ -206,10 +196,7 @@ namespace RealEstate.BLL.Services
             return true;
         }
 
-        // =====================================================
         // MAP ENTITY TO DTO
-        // =====================================================
-
         private static VisitResponseDto MapToDto(
             VisitSchedule visit)
         {

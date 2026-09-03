@@ -1,17 +1,13 @@
-﻿namespace RealEstate.DAL.Entities
+namespace RealEstate.DAL.Entities
 {
     public class Property
     {
         public int Id { get; set; }
 
         // Foreign Keys
-
         public int AgentId { get; set; }
-
         public int PropertyTypeId { get; set; }
-
         // Property Information
-
         public string Title { get; set; } = string.Empty;
 
         public string Description { get; set; } = string.Empty;

@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using RealEstate.DAL.Data;
 using RealEstate.DAL.Entities;
 using RealEstate.DAL.Interfaces;
@@ -15,10 +15,7 @@ namespace RealEstate.DAL.Repositories
             _context = context;
         }
 
-        // -----------------------------------------
         // Schedule Visit
-        // -----------------------------------------
-
         public async Task<VisitSchedule>
             AddAsync(VisitSchedule visit)
         {
@@ -30,9 +27,7 @@ namespace RealEstate.DAL.Repositories
             return visit;
         }
 
-        // -----------------------------------------
         // Get Visit By Id
-        // -----------------------------------------
 
         public async Task<VisitSchedule?>
             GetByIdAsync(int id)
@@ -48,9 +43,7 @@ namespace RealEstate.DAL.Repositories
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        // -----------------------------------------
         // Get Visits By User
-        // -----------------------------------------
 
         public async Task<List<VisitSchedule>>
             GetByUserIdAsync(int userId)
@@ -70,9 +63,7 @@ namespace RealEstate.DAL.Repositories
                 .ToListAsync();
         }
 
-        // -----------------------------------------
         // Get Visits For Agent
-        // -----------------------------------------
 
         public async Task<List<VisitSchedule>>
             GetByAgentIdAsync(int agentId)
@@ -91,9 +82,7 @@ namespace RealEstate.DAL.Repositories
                 .ToListAsync();
         }
 
-        // -----------------------------------------
-        // Update Visit
-        // -----------------------------------------
+           // Update Visit
 
         public async Task UpdateAsync(
             VisitSchedule visit)

@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using RealEstate.BLL.DTOs.Inquiry;
 using RealEstate.BLL.Interfaces;
@@ -35,7 +35,6 @@ namespace RealEstate.BLL.Services
 
        
         // CREATE INQUIRY
-        
         public async Task<InquiryResponseDto> CreateAsync(
             CreateInquiryDto request)
         {
@@ -189,9 +188,7 @@ Please login to the admin panel to view and respond to this inquiry.
             return MapToDto(inquiry);
         }
 
-        // =====================================================
         // GET INQUIRIES BY AGENT
-        // =====================================================
 
         public async Task<List<InquiryResponseDto>>
             GetByAgentIdAsync(int agentId)
@@ -231,8 +228,6 @@ Please login to the admin panel to view and respond to this inquiry.
 
        
         // MAP ENTITY TO DTO
-        
-
         private static InquiryResponseDto MapToDto(
             Inquiry inquiry)
         {

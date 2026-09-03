@@ -28,9 +28,9 @@ export class PropertyList implements OnInit {
   private readonly favoriteService = inject(FavoriteService);
   private readonly authService = inject(AuthService);
 
-  // =========================================================
+  
   // FILTERS
-  // =========================================================
+ 
 
   filters = {
     location: '',
@@ -42,9 +42,9 @@ export class PropertyList implements OnInit {
     furnishedStatus: ''
   };
 
-  // =========================================================
+ 
   // PAGE DATA
-  // =========================================================
+  
 
   properties: Property[] = [];
 
@@ -56,9 +56,9 @@ export class PropertyList implements OnInit {
 
   favoriteError = '';
 
-  // =========================================================
+ 
   // SAFE PROPERTY LIST
-  // =========================================================
+  
 
   get propertyList(): Property[] {
 
@@ -68,9 +68,9 @@ export class PropertyList implements OnInit {
 
   }
 
-  // =========================================================
+  
   // INIT
-  // =========================================================
+  
 
   ngOnInit(): void {
 
@@ -80,27 +80,25 @@ export class PropertyList implements OnInit {
 
   }
 
-  // =========================================================
+  
   // NORMALIZE API RESPONSE
-  // =========================================================
-
+ 
   private normalizeProperties(response: any): Property[] {
 
     console.log('Raw API response:', response);
 
-    // -------------------------------------------------------
+   
     // Direct array
-    // -------------------------------------------------------
-
+   
     if (Array.isArray(response)) {
 
       return response;
 
     }
 
-    // -------------------------------------------------------
+    
     // { data: [...] }
-    // -------------------------------------------------------
+    
 
     if (Array.isArray(response?.data)) {
 
@@ -108,19 +106,18 @@ export class PropertyList implements OnInit {
 
     }
 
-    // -------------------------------------------------------
+    
     // { items: [...] }
-    // -------------------------------------------------------
-
+    
     if (Array.isArray(response?.items)) {
 
       return response.items;
 
     }
 
-    // -------------------------------------------------------
+    
     // { properties: [...] }
-    // -------------------------------------------------------
+    
 
     if (Array.isArray(response?.properties)) {
 
@@ -128,19 +125,18 @@ export class PropertyList implements OnInit {
 
     }
 
-    // -------------------------------------------------------
+    
     // { result: [...] }
-    // -------------------------------------------------------
-
+    
     if (Array.isArray(response?.result)) {
 
       return response.result;
 
     }
 
-    // -------------------------------------------------------
+   
     // { data: { items: [...] } }
-    // -------------------------------------------------------
+   
 
     if (Array.isArray(response?.data?.items)) {
 
@@ -148,9 +144,9 @@ export class PropertyList implements OnInit {
 
     }
 
-    // -------------------------------------------------------
+    
     // { data: { properties: [...] } }
-    // -------------------------------------------------------
+   
 
     if (Array.isArray(response?.data?.properties)) {
 
@@ -158,9 +154,9 @@ export class PropertyList implements OnInit {
 
     }
 
-    // -------------------------------------------------------
+   
     // { data: { result: [...] } }
-    // -------------------------------------------------------
+    
 
     if (Array.isArray(response?.data?.result)) {
 
@@ -168,9 +164,9 @@ export class PropertyList implements OnInit {
 
     }
 
-    // -------------------------------------------------------
+    
     // Single property object
-    // -------------------------------------------------------
+    
 
     if (
       response &&
@@ -193,9 +189,9 @@ export class PropertyList implements OnInit {
 
   }
 
-  // =========================================================
+  
   // LOAD PROPERTIES
-  // =========================================================
+  
 
   loadProperties(): void {
 
@@ -267,9 +263,9 @@ export class PropertyList implements OnInit {
 
   }
 
-  // =========================================================
+ 
   // SEARCH
-  // =========================================================
+ 
 
   search(): void {
 
@@ -412,9 +408,9 @@ export class PropertyList implements OnInit {
 
   }
 
-  // =========================================================
+ 
   // CLEAR FILTERS
-  // =========================================================
+  
 
   clearFilters(): void {
 
@@ -442,10 +438,9 @@ export class PropertyList implements OnInit {
 
   }
 
-  // =========================================================
+  
   // LOAD FAVORITES
-  // =========================================================
-
+ 
   private loadFavorites(): void {
 
     if (
@@ -517,10 +512,9 @@ export class PropertyList implements OnInit {
 
   }
 
-  // =========================================================
+  
   // TOGGLE FAVORITE
-  // =========================================================
-
+  
   toggleFavorite(
     property: Property
   ): void {
@@ -538,10 +532,9 @@ export class PropertyList implements OnInit {
 
     }
 
-    // -------------------------------------------------------
+    
     // REMOVE FAVORITE
-    // -------------------------------------------------------
-
+    
     if (
       this.favorites.has(property.id)
     ) {
@@ -578,10 +571,8 @@ export class PropertyList implements OnInit {
 
     }
 
-    // -------------------------------------------------------
     // ADD FAVORITE
-    // -------------------------------------------------------
-
+    
     this.favoriteService
       .add(property.id)
       .subscribe({
@@ -630,10 +621,9 @@ export class PropertyList implements OnInit {
 
   }
 
-  // =========================================================
+  
   // IMAGE
-  // =========================================================
-
+ 
   imageFor(
     property: Property
   ): string {
@@ -662,9 +652,8 @@ export class PropertyList implements OnInit {
 
   }
 
-  // =========================================================
+  
   // IMAGE FALLBACK
-  // =========================================================
 
   imageFallback(
     event: Event
@@ -686,10 +675,8 @@ export class PropertyList implements OnInit {
 
   }
 
-  // =========================================================
   // LOCATION
-  // =========================================================
-
+  
   getLocation(
     property: Property
   ): string {
@@ -713,9 +700,7 @@ export class PropertyList implements OnInit {
 
   }
 
-  // =========================================================
   // STATUS
-  // =========================================================
 
   getStatus(
     property: Property

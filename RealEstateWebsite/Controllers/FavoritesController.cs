@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstate.BLL.Interfaces;
 using System.Security.Claims;
@@ -17,10 +17,8 @@ namespace RealEstate.API.Controllers
         {
             _favoriteService = favoriteService;
         }
-
        
         // POST: api/Favorites/{propertyId}
-        
 
         [HttpPost("{propertyId:int}")]
         public async Task<IActionResult> AddFavorite(
@@ -69,11 +67,9 @@ namespace RealEstate.API.Controllers
                 });
             }
         }
-
        
         // DELETE: api/Favorites/{propertyId}
         
-
         [HttpDelete("{propertyId:int}")]
         public async Task<IActionResult> RemoveFavorite(
             int propertyId)
@@ -118,11 +114,9 @@ namespace RealEstate.API.Controllers
                 message = "Property removed from favorites."
             });
         }
-
         
         // GET: api/Favorites/check/{propertyId}
         
-
         [HttpGet("check/{propertyId:int}")]
         public async Task<IActionResult> CheckFavorite(
             int propertyId)
@@ -158,11 +152,9 @@ namespace RealEstate.API.Controllers
                 isFavorite = exists
             });
         }
-
        
         // GET: api/Favorites
        
-
         [HttpGet]
         public async Task<IActionResult> GetMyFavorites()
         {
@@ -189,10 +181,7 @@ namespace RealEstate.API.Controllers
             });
         }
 
-        // =====================================================
         // GET CURRENT USER ID FROM JWT
-        // =====================================================
-
         private int? GetCurrentUserId()
         {
             var userIdClaim =

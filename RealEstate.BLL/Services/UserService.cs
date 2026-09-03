@@ -1,4 +1,4 @@
-﻿using RealEstate.BLL.DTOs.User;
+using RealEstate.BLL.DTOs.User;
 using RealEstate.BLL.Interfaces;
 using RealEstate.DAL.Interfaces;
 
@@ -13,10 +13,9 @@ namespace RealEstate.BLL.Services
             _userRepository = userRepository;
         }
 
-        // =====================================================
+      
         // GET USER BY ID
-        // =====================================================
-
+        
         public async Task<UserResponseDto?> GetByIdAsync(int id)
         {
             var user = await _userRepository.GetByIdAsync(id);
@@ -42,10 +41,8 @@ namespace RealEstate.BLL.Services
             };
         }
 
-        // =====================================================
         // GET USER BY EMAIL
-        // =====================================================
-
+       
         public async Task<UserResponseDto?> GetByEmailAsync(
             string email)
         {
@@ -73,10 +70,8 @@ namespace RealEstate.BLL.Services
             };
         }
 
-        // =====================================================
         // UPDATE USER PROFILE
-        // =====================================================
-
+       
         public async Task<UserResponseDto> UpdateAsync(
             int id,
             UpdateUserDto request)

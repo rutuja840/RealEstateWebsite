@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstate.BLL.DTOs.Inquiry;
 using RealEstate.BLL.Interfaces;
@@ -19,10 +19,10 @@ namespace RealEstate.API.Controllers
             _inquiryService = inquiryService;
         }
 
-        // =====================================================
+      
         // CREATE INQUIRY
         // POST: api/Inquiries
-        // =====================================================
+       
 
         [HttpPost]
         public async Task<IActionResult> Create(
@@ -68,10 +68,8 @@ namespace RealEstate.API.Controllers
             }
         }
 
-        // =====================================================
         // GET INQUIRY BY ID
         // GET: api/Inquiries/1
-        // =====================================================
 
         [HttpGet("{id:int}")]
         [Authorize(Roles = "Agent,Admin")]
@@ -133,10 +131,8 @@ namespace RealEstate.API.Controllers
             });
         }
 
-        // =====================================================
         // GET MY INQUIRIES
         // GET: api/Inquiries/my
-        // =====================================================
 
         [HttpGet("my")]
         public async Task<IActionResult> GetMyInquiries()
@@ -164,10 +160,8 @@ namespace RealEstate.API.Controllers
             });
         }
 
-        // =====================================================
         // GET AGENT INQUIRIES
         // GET: api/Inquiries/agent/1
-        // =====================================================
 
         [HttpGet("agent/{agentId:int}")]
         [Authorize(Roles = "Agent,Admin")]
@@ -204,10 +198,10 @@ namespace RealEstate.API.Controllers
             });
         }
 
-        // =====================================================
+       
         // MARK AS READ
         // PUT: api/Inquiries/1/read
-        // =====================================================
+       
 
         [HttpPut("{id:int}/read")]
         [Authorize(Roles = "Agent,Admin")]
@@ -272,9 +266,9 @@ namespace RealEstate.API.Controllers
             });
         }
 
-        // =====================================================
-        // GET CURRENT USER ID FROM JWT
-        // =====================================================
+        
+        // GET CURRENT USER ID FROM JWT 
+       
 
         private int? GetCurrentUserId()
         {
