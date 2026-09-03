@@ -1,4 +1,4 @@
-﻿using RealEstate.BLL.DTOs.Favorite;
+using RealEstate.BLL.DTOs.Favorite;
 
 namespace RealEstate.BLL.Interfaces
 {
@@ -9,19 +9,16 @@ namespace RealEstate.BLL.Interfaces
             AddAsync(
                 int userId,
                 int propertyId);
-
         // Remove property from favorites
         Task<bool>
             RemoveAsync(
                 int userId,
                 int propertyId);
-
         // Check whether property is favorite
         Task<bool>
             ExistsAsync(
                 int userId,
                 int propertyId);
-
         // Get all favorites of user
         Task<List<FavoriteResponseDto>>
             GetByUserIdAsync(int userId);

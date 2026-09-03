@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using RealEstate.DAL.Data;
 using RealEstate.DAL.Entities;
 using RealEstate.DAL.Interfaces;
@@ -15,9 +15,7 @@ namespace RealEstate.DAL.Repositories
             _context = context;
         }
 
-        // -----------------------------------------
         // Check Favorite Exists
-        // -----------------------------------------
 
         public async Task<bool> ExistsAsync(
             int userId,
@@ -29,9 +27,7 @@ namespace RealEstate.DAL.Repositories
                     x.PropertyId == propertyId);
         }
 
-        // -----------------------------------------
         // Add Favorite
-        // -----------------------------------------
 
         public async Task<Favorite> AddAsync(
             Favorite favorite)
@@ -43,9 +39,7 @@ namespace RealEstate.DAL.Repositories
             return favorite;
         }
 
-        // -----------------------------------------
         // Remove Favorite
-        // -----------------------------------------
 
         public async Task RemoveAsync(
             int userId,
@@ -65,10 +59,7 @@ namespace RealEstate.DAL.Repositories
             }
         }
 
-        // -----------------------------------------
         // Get My Favorites
-        // -----------------------------------------
-
         public async Task<List<Favorite>>
             GetByUserIdAsync(int userId)
         {

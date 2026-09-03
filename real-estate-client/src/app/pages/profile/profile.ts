@@ -34,17 +34,16 @@ export class Profile {
   private readonly formBuilder = inject(FormBuilder);
   private readonly router = inject(Router);
 
-  // =========================================================
+ 
   // CURRENT USER
-  // =========================================================
-
+  
   readonly user =
     this.auth.getCurrentUser() as CurrentUser | null;
 
 
-  // =========================================================
+  
   // PROFILE FORM
-  // =========================================================
+  
 
   readonly form =
     this.formBuilder.nonNullable.group({
@@ -62,16 +61,16 @@ export class Profile {
     });
 
 
-  // =========================================================
+  
   // ALIAS FOR EXISTING profile.html
-  // =========================================================
+  
 
   readonly profileForm = this.form;
 
 
-  // =========================================================
+ 
   // STATE
-  // =========================================================
+ 
 
   saving = false;
 
@@ -80,18 +79,18 @@ export class Profile {
   errorMessage = '';
 
 
-  // =========================================================
+  
   // ALIAS FOR EXISTING HTML
-  // =========================================================
+ 
 
   get successMessage(): string {
     return this.message;
   }
 
 
-  // =========================================================
+ 
   // SAVE PROFILE
-  // =========================================================
+  
 
   save(): void {
 
@@ -172,9 +171,9 @@ export class Profile {
   }
 
 
-  // =========================================================
+ 
   // UPDATE STORED USER
-  // =========================================================
+  
 
   private updateStoredUser(
     response: any
@@ -210,10 +209,9 @@ export class Profile {
   }
 
 
-  // =========================================================
+ 
   // LOGOUT
-  // =========================================================
-
+  
   logout(): void {
 
     // Clear authentication information

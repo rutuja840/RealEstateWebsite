@@ -51,10 +51,9 @@ export class PropertyDetails implements OnInit {
   inquiryError = '';
   inquirySuccess = false;
 
-  // =========================================================
+  
   // PAGE DATA
-  // =========================================================
-
+  
   property: Property | null = null;
 
   loading = false;
@@ -63,10 +62,9 @@ export class PropertyDetails implements OnInit {
 
   selectedImageIndex = 0;
 
-  // =========================================================
+ 
   // INIT
-  // =========================================================
-
+ 
   ngOnInit(): void {
 
     const currentUser = this.authService.getCurrentUser();
@@ -134,10 +132,8 @@ export class PropertyDetails implements OnInit {
     });
   }
 
-  // =========================================================
   // LOAD PROPERTY
-  // =========================================================
-
+ 
   loadProperty(id: number): void {
 
     console.log('======================================');
@@ -245,9 +241,9 @@ export class PropertyDetails implements OnInit {
             return;
           }
 
-          // ===================================================
+         
           // GET ACTUAL PROPERTY OBJECT
-          // ===================================================
+         
 
           let data: any = response;
 
@@ -298,9 +294,9 @@ export class PropertyDetails implements OnInit {
             data = response.property;
           }
 
-          // ===================================================
+         
           // ARRAY RESPONSE
-          // ===================================================
+         
 
           if (Array.isArray(data)) {
 
@@ -315,10 +311,9 @@ export class PropertyDetails implements OnInit {
                 : null;
           }
 
-          // ===================================================
+         
           // CHECK PROPERTY
-          // ===================================================
-
+         
           if (
             !data ||
             typeof data !== 'object'
@@ -337,17 +332,17 @@ export class PropertyDetails implements OnInit {
             return;
           }
 
-          // ===================================================
+         
           // NORMALIZE PROPERTY
-          // ===================================================
+         
 
           const normalizedProperty: any = {
 
             ...data,
 
-            // -------------------------------------------------
+           
             // ID
-            // -------------------------------------------------
+          
 
             id: Number(
               data.id ??
@@ -355,42 +350,39 @@ export class PropertyDetails implements OnInit {
               id
             ),
 
-            // -------------------------------------------------
+           
             // TITLE
-            // -------------------------------------------------
-
+           
             title:
               data.title ??
               data.name ??
               'Property',
 
-            // -------------------------------------------------
+           
             // PRICE
-            // -------------------------------------------------
-
+            
             price: Number(
               data.price ?? 0
             ),
 
-            // -------------------------------------------------
+            
             // BEDROOMS
-            // -------------------------------------------------
-
+            
             bedrooms: Number(
               data.bedrooms ?? 0
             ),
 
-            // -------------------------------------------------
+           
             // BATHROOMS
-            // -------------------------------------------------
+            
 
             bathrooms: Number(
               data.bathrooms ?? 0
             ),
 
-            // -------------------------------------------------
+           
             // AREA
-            // -------------------------------------------------
+           
 
             area: Number(
               data.area ?? 0
@@ -401,10 +393,9 @@ export class PropertyDetails implements OnInit {
               data.areaUnitName ??
               'sq.ft',
 
-            // -------------------------------------------------
+            
             // PROPERTY TYPE
-            // -------------------------------------------------
-
+            
             propertyType:
               data.propertyType ??
               data.propertyTypeName ??
@@ -417,10 +408,9 @@ export class PropertyDetails implements OnInit {
               data.type ??
               '',
 
-            // -------------------------------------------------
+            
             // LOCATION
-            // -------------------------------------------------
-
+            
             location:
               data.location ??
               data.city ??
@@ -706,9 +696,9 @@ export class PropertyDetails implements OnInit {
     return 'AVAILABLE';
   }
 
-  // =========================================================
+ 
   // PROPERTY TYPE
-  // =========================================================
+  
 
   getPropertyType(): string {
 
@@ -727,9 +717,8 @@ export class PropertyDetails implements OnInit {
     );
   }
 
-  // =========================================================
   // RETRY
-  // =========================================================
+  
 
   retry(): void {
 

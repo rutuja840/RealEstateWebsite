@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstate.BLL.DTOs.User;
 using RealEstate.BLL.Interfaces;
@@ -18,10 +18,8 @@ namespace RealEstate.API.Controllers
             _userService = userService;
         }
 
-        // =====================================================
         // GET PROFILE
         // GET: api/Users/{id}
-        // =====================================================
 
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetProfile(int id)
@@ -64,10 +62,8 @@ namespace RealEstate.API.Controllers
             });
         }
 
-        // =====================================================
         // GET USER BY EMAIL
         // GET: api/Users/email?email=rahul@gmail.com
-        // =====================================================
 
         [HttpGet("email")]
         public async Task<IActionResult> GetByEmail(
@@ -119,11 +115,9 @@ namespace RealEstate.API.Controllers
             });
         }
 
-        // =====================================================
         // UPDATE PROFILE
         // PUT: api/Users/{id}
-        // =====================================================
-
+       
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateProfile(
      int id,
@@ -158,10 +152,8 @@ namespace RealEstate.API.Controllers
             });
         }
 
-        // =====================================================
         // GET CURRENT USER ID FROM JWT
-        // =====================================================
-
+        
         private int? GetCurrentUserId()
         {
             var userIdClaim =

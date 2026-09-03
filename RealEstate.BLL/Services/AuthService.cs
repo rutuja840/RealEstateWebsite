@@ -1,4 +1,4 @@
-﻿using RealEstate.BLL.DTOs.Auth;
+using RealEstate.BLL.DTOs.Auth;
 using RealEstate.BLL.Helpers;
 using RealEstate.BLL.Interfaces;
 using RealEstate.DAL.Entities;
@@ -104,10 +104,7 @@ namespace RealEstate.BLL.Services
             };
         }
 
-        
         // LOGIN
-        
-
         public async Task<LoginResponseDto> LoginAsync(
             LoginRequestDto request)
         {

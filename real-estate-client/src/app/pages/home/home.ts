@@ -27,9 +27,9 @@ import { AuthService } from '../../services/auth';
 })
 export class Home implements OnInit {
 
-  // =========================================================
+  
   // SERVICES
-  // =========================================================
+ 
 
   private readonly propertyService =
     inject(PropertyService);
@@ -44,9 +44,9 @@ export class Home implements OnInit {
     inject(ChangeDetectorRef);
 
 
-  // =========================================================
+  
   // PROPERTIES
-  // =========================================================
+  
 
   properties: Property[] = [];
 
@@ -59,10 +59,9 @@ export class Home implements OnInit {
   favoriteError = '';
 
 
-  // =========================================================
+ 
   // SERVICES / FEATURES
-  // =========================================================
-
+ 
   services = [
     {
       icon: '⌂',
@@ -98,9 +97,9 @@ export class Home implements OnInit {
   ];
 
 
-  // =========================================================
+  
   // INIT
-  // =========================================================
+  
 
   ngOnInit(): void {
 
@@ -114,10 +113,9 @@ export class Home implements OnInit {
   }
 
 
-  // =========================================================
+ 
   // LOAD PROPERTIES
-  // =========================================================
-
+ 
   loadProperties(): void {
 
     console.log('HOME: Starting property request...');
@@ -131,9 +129,8 @@ export class Home implements OnInit {
       .getAllProperties()
       .subscribe({
 
-        // ===================================================
         // SUCCESS
-        // ===================================================
+       
 
         next: (response: any) => {
 
@@ -151,7 +148,20 @@ export class Home implements OnInit {
           );
 
           // Set properties
-          this.properties = result ?? [];
+          this.properties = (result ?? []).map(property => ({
+            ...property,
+            imageUrl: property.imageUrl ?? (property as Property & { imageURL?: string }).imageURL ?? '',
+            images: (property.images ?? [])
+              .map(image => {
+                if (typeof image === 'string') {
+                  return image;
+                }
+
+                const imageData = image as unknown as { imageUrl?: string; url?: string };
+                return imageData.imageUrl ?? imageData.url ?? '';
+              })
+              .filter(image => image.trim() !== '')
+          }));
 
           console.log(
             'HOME: Properties received:',
@@ -182,10 +192,9 @@ export class Home implements OnInit {
         },
 
 
-        // ===================================================
+      
         // ERROR
-        // ===================================================
-
+      
         error: (error: any) => {
 
           console.error(
@@ -228,9 +237,9 @@ export class Home implements OnInit {
   }
 
 
-  // =========================================================
+ 
   // FAVORITES
-  // =========================================================
+ 
 
   loadFavorites(): void {
 
@@ -285,10 +294,9 @@ export class Home implements OnInit {
   }
 
 
-  // =========================================================
+ 
   // IMAGE
-  // =========================================================
-
+  
   imageFor(
     property: Property
   ): string {
@@ -314,50 +322,13 @@ export class Home implements OnInit {
     }
 
 
-    // Google/Unsplash-style fallback image
-    return this.getFallbackImage(property);
+    return '/assets/images/default-property.svg';
   }
 
 
-  // =========================================================
-  // HARDCODED PROPERTY IMAGES
-  // =========================================================
-
-  getFallbackImage(
-    property: Property
-  ): string {
-
-    const images = [
-
-      'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=85',
-
-      'https://unsplash.com/s/photos/real-estate-projects?auto=format&fit=crop&w=1200&q=85',
-
-      'https://www.investormart.co.in/news/property-search-portal',
-
-      'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85',
-
-      'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=1200&q=85',
-
-      'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1200&q=85',
-
-      'https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1200&q=85',
-
-      'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=85',
-
-      'https://images.unsplash.com/photo-1600566753051-6b7f5c0b8d7d?auto=format&fit=crop&w=1200&q=85'
-
-    ];
-
-    return images[
-      property.id % images.length
-    ];
-  }
-
-
-  // =========================================================
+  
   // IMAGE FALLBACK
-  // =========================================================
+ 
 
   propertyImageFallback(
     event: Event
@@ -372,14 +343,13 @@ export class Home implements OnInit {
 
     image.onerror = null;
 
-    image.src =
-      'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=85';
+    image.src = '/assets/images/default-property.svg';
   }
 
 
-  // =========================================================
+ 
   // LIFESTYLE IMAGE FALLBACK
-  // =========================================================
+  
 
   lifestyleImageFallback(
     event: Event
@@ -399,9 +369,9 @@ export class Home implements OnInit {
   }
 
 
-  // =========================================================
+  
   // PROPERTY STATUS
-  // =========================================================
+ 
 
   getPropertyStatus(
     property: Property
@@ -421,9 +391,9 @@ export class Home implements OnInit {
   }
 
 
-  // =========================================================
+ 
   // PROPERTY TYPE
-  // =========================================================
+ 
 
   getPropertyType(
     property: Property
@@ -437,10 +407,9 @@ export class Home implements OnInit {
   }
 
 
-  // =========================================================
+ 
   // LOCATION
-  // =========================================================
-
+  
   getPropertyLocation(
     property: Property
   ): string {
@@ -449,50 +418,14 @@ export class Home implements OnInit {
       property.location ||
       property.city ||
       property.address ||
-      this.getHardcodedLocation(property)
+      'Location not available'
     );
   }
 
 
-  // =========================================================
-  // HARDCODED LOCATION
-  // =========================================================
-
-  getHardcodedLocation(
-    property: Property
-  ): string {
-
-    const locations = [
-
-      'Baner, Pune',
-
-      'Kothrud, Pune',
-
-      'Wakad, Pune',
-
-      'Hinjewadi, Pune',
-
-      'Viman Nagar, Pune',
-
-      'Kharadi, Pune',
-
-      'Aundh, Pune',
-
-      'Koregaon Park, Pune',
-
-      'Hadapsar, Pune'
-
-    ];
-
-    return locations[
-      property.id % locations.length
-    ];
-  }
-
-
-  // =========================================================
+ 
   // AREA UNIT
-  // =========================================================
+  
 
   getAreaUnit(
     property: Property
@@ -502,9 +435,9 @@ export class Home implements OnInit {
   }
 
 
-  // =========================================================
+ 
   // FAVORITE TOGGLE
-  // =========================================================
+  
 
   toggleFavorite(
     property: Property
@@ -521,10 +454,9 @@ export class Home implements OnInit {
     this.favoriteError = '';
 
 
-    // =====================================================
+    
     // REMOVE
-    // =====================================================
-
+   
     if (
       this.favoriteIds.has(property.id)
     ) {
@@ -560,10 +492,9 @@ export class Home implements OnInit {
     }
 
 
-    // =====================================================
+    
     // ADD
-    // =====================================================
-
+    
     this.favoriteService
       .add(property.id)
       .subscribe({

@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using RealEstate.DAL.Entities;
 
 namespace RealEstate.DAL.Data
@@ -35,10 +35,8 @@ namespace RealEstate.DAL.Data
             ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
            
             // User
-            
 
             modelBuilder.Entity<User>()
                 .HasKey(x => x.Id);
@@ -69,10 +67,8 @@ namespace RealEstate.DAL.Data
                 .HasMaxLength(50)
                 .IsRequired();
 
-            
             // Property
            
-
             modelBuilder.Entity<Property>()
                 .HasKey(x => x.Id);
 
@@ -92,50 +88,40 @@ namespace RealEstate.DAL.Data
                 .Property(x => x.Longitude)
                 .HasPrecision(10, 7);
 
-           
             // PropertyType -> Property
             
-
             modelBuilder.Entity<Property>()
                 .HasOne(x => x.PropertyType)
                 .WithMany(x => x.Properties)
                 .HasForeignKey(x => x.PropertyTypeId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            
             // Agent(User) -> Property
            
-
             modelBuilder.Entity<Property>()
                 .HasOne(x => x.Agent)
                 .WithMany(x => x.Properties)
                 .HasForeignKey(x => x.AgentId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            
             // Property -> PropertyImage
        
-
             modelBuilder.Entity<PropertyImage>()
                 .HasOne(x => x.Property)
                 .WithMany(x => x.Images)
                 .HasForeignKey(x => x.PropertyId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-           
             // User -> Favorite
             
-
             modelBuilder.Entity<Favorite>()
                 .HasOne(x => x.User)
                 .WithMany(x => x.Favorites)
                 .HasForeignKey(x => x.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            
             // Property -> Favorite
           
-
             modelBuilder.Entity<Favorite>()
                 .HasOne(x => x.Property)
                 .WithMany(x => x.Favorites)
@@ -150,51 +136,41 @@ namespace RealEstate.DAL.Data
                     x.PropertyId
                 })
                 .IsUnique();
-
            
             // Property -> Inquiry
            
-
             modelBuilder.Entity<Inquiry>()
                 .HasOne(x => x.Property)
                 .WithMany(x => x.Inquiries)
                 .HasForeignKey(x => x.PropertyId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-           
             // User -> Inquiry
             
-
             modelBuilder.Entity<Inquiry>()
                 .HasOne(x => x.User)
                 .WithMany(x => x.Inquiries)
                 .HasForeignKey(x => x.UserId)
                 .OnDelete(DeleteBehavior.SetNull);
-
           
             // Property -> VisitSchedule
             
-
             modelBuilder.Entity<VisitSchedule>()
                 .HasOne(x => x.Property)
                 .WithMany(x => x.VisitSchedules)
                 .HasForeignKey(x => x.PropertyId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            
             // User -> VisitSchedule
            
-
             modelBuilder.Entity<VisitSchedule>()
                 .HasOne(x => x.User)
                 .WithMany(x => x.VisitSchedules)
                 .HasForeignKey(x => x.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-          
             // Property Types Seed Data
             
-
             modelBuilder.Entity<PropertyType>().HasData(
 
                 new PropertyType

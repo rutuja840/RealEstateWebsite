@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstate.BLL.DTOs.Visit;
 using RealEstate.BLL.Interfaces;
@@ -19,10 +19,8 @@ namespace RealEstate.API.Controllers
             _visitService = visitService;
         }
 
-        // =====================================================
         // SCHEDULE VISIT
         // POST: api/Visits
-        // =====================================================
 
         [HttpPost]
         public async Task<IActionResult> Create(
@@ -67,10 +65,8 @@ namespace RealEstate.API.Controllers
             }
         }
 
-        // =====================================================
         // GET VISIT BY ID
         // GET: api/Visits/1
-        // =====================================================
 
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
@@ -141,10 +137,10 @@ namespace RealEstate.API.Controllers
             });
         }
 
-        // =====================================================
+       
         // GET MY VISITS
         // GET: api/Visits/my
-        // =====================================================
+       
 
         [HttpGet("my")]
         public async Task<IActionResult> GetMyVisits()
@@ -172,10 +168,10 @@ namespace RealEstate.API.Controllers
             });
         }
 
-        // =====================================================
+       
         // GET AGENT VISITS
         // GET: api/Visits/agent/1
-        // =====================================================
+        
 
         [HttpGet("agent/{agentId:int}")]
         [Authorize(Roles = "Agent,Admin")]
@@ -212,10 +208,10 @@ namespace RealEstate.API.Controllers
             });
         }
 
-        // =====================================================
+       
         // UPDATE VISIT STATUS
         // PUT: api/Visits/1
-        // =====================================================
+        
 
         [HttpPut("{id:int}")]
         [Authorize(Roles = "Agent,Admin")]
@@ -300,10 +296,10 @@ namespace RealEstate.API.Controllers
             }
         }
 
-        // =====================================================
+       
         // CANCEL VISIT
         // PUT: api/Visits/1/cancel
-        // =====================================================
+       
 
         [HttpPut("{id:int}/cancel")]
         public async Task<IActionResult> Cancel(int id)
@@ -361,10 +357,9 @@ namespace RealEstate.API.Controllers
             });
         }
 
-        // =====================================================
+        
         // GET CURRENT USER ID FROM JWT
-        // =====================================================
-
+        
         private int? GetCurrentUserId()
         {
             var userIdClaim =

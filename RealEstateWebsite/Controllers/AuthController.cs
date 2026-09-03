@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using RealEstate.BLL.DTOs.Auth;
 using RealEstate.BLL.Interfaces;
 
@@ -15,10 +15,8 @@ namespace RealEstate.API.Controllers
             _authService = authService;
         }
 
-        // =====================================================
         // REGISTER
         // POST: api/Auth/register
-        // =====================================================
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(
@@ -35,10 +33,8 @@ namespace RealEstate.API.Controllers
             });
         }
 
-        // =====================================================
         // LOGIN
         // POST: api/Auth/login
-        // =====================================================
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(

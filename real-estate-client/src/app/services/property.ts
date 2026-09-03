@@ -22,9 +22,9 @@ export class PropertyService {
   private readonly apiUrl = '/api/Properties';
 
 
-  // =========================================================
+  
   // GET ALL PROPERTIES
-  // =========================================================
+  
 
   getAllProperties(): Observable<Property[]> {
 
@@ -56,9 +56,9 @@ export class PropertyService {
   }
 
 
-  // =========================================================
+ 
   // GET PROPERTY BY ID
-  // =========================================================
+ 
 
  getPropertyById(id: number): Observable<Property> {
 
@@ -91,9 +91,9 @@ export class PropertyService {
     );
 }
 
-  // =========================================================
+ 
   // CREATE PROPERTY
-  // =========================================================
+ 
 
   createProperty(property: any): Observable<any> {
 
@@ -104,9 +104,9 @@ export class PropertyService {
   }
 
 
-  // =========================================================
+  
   // UPDATE PROPERTY
-  // =========================================================
+ 
 
   updateProperty(
     id: number,
@@ -120,9 +120,9 @@ export class PropertyService {
   }
 
 
-  // =========================================================
+ 
   // DELETE PROPERTY
-  // =========================================================
+ 
 
   deleteProperty(id: number): Observable<any> {
 
@@ -132,9 +132,9 @@ export class PropertyService {
   }
 
 
-  // =========================================================
+ 
   // UPLOAD IMAGES
-  // =========================================================
+  
 
   uploadImages(
     propertyId: number,
@@ -159,9 +159,9 @@ export class PropertyService {
   }
 
 
-  // =========================================================
+ 
   // SEARCH PROPERTIES
-  // =========================================================
+ 
 searchProperties(
   filters: PropertyFilters
 ): Observable<Property[]> {
@@ -269,9 +269,8 @@ searchProperties(
 }
 
 
-  // =========================================================
   // UNWRAP LIST
-  // =========================================================
+ 
 
   static unwrapList(
     response: any
@@ -352,9 +351,9 @@ searchProperties(
   }
 
 
-  // =========================================================
+  
   // UNWRAP SINGLE PROPERTY
-  // =========================================================
+ 
 
  static unwrapOne(response: any): Property {
 

@@ -1,4 +1,4 @@
-﻿using RealEstate.BLL.DTOs.Property;
+using RealEstate.BLL.DTOs.Property;
 using RealEstate.BLL.Interfaces;
 using RealEstate.DAL.Entities;
 using RealEstate.DAL.Interfaces;
@@ -50,11 +50,9 @@ namespace RealEstate.BLL.Services
 
             return MapToDto(property);
         }
-
-        // =====================================================
+       
         // GET PROPERTIES BY AGENT
-        // =====================================================
-
+       
         public async Task<List<PropertyResponseDto>>
             GetByAgentIdAsync(int agentId)
         {
@@ -297,10 +295,8 @@ namespace RealEstate.BLL.Services
             return true;
         }
 
-        // =====================================================
         // MAP ENTITY TO DTO
-        // =====================================================
-
+       
         private static PropertyResponseDto MapToDto(
             Property property)
         {

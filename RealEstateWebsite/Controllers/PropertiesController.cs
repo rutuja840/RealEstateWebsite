@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstate.BLL.DTOs.Property;
 using RealEstate.BLL.Interfaces;
@@ -23,11 +23,10 @@ namespace RealEstate.API.Controllers
             _propertyService = propertyService;
         }
 
-        // =====================================================
+       
         // GET ALL PROPERTIES
         // GET: api/Properties
-        // =====================================================
-
+       
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> GetAll()
@@ -43,10 +42,10 @@ namespace RealEstate.API.Controllers
             });
         }
 
-        // =====================================================
+       
         // GET PROPERTY BY ID
         // GET: api/Properties/1
-        // =====================================================
+       
 
         [HttpGet("{id:int}")]
         [AllowAnonymous]
@@ -72,10 +71,10 @@ namespace RealEstate.API.Controllers
             });
         }
 
-        // =====================================================
+        
         // SEARCH / FILTER PROPERTIES
         // GET: api/Properties/search
-        // =====================================================
+       
 
         [HttpGet("search")]
         [AllowAnonymous]
@@ -93,10 +92,10 @@ namespace RealEstate.API.Controllers
             });
         }
 
-        // =====================================================
+       
         // GET PROPERTIES BY AGENT
         // GET: api/Properties/agent/1
-        // =====================================================
+       
 
         [HttpGet("agent/{agentId:int}")]
         [Authorize(Roles = "Agent,Admin")]
@@ -128,10 +127,10 @@ namespace RealEstate.API.Controllers
             });
         }
 
-        // =====================================================
+       
         // CREATE PROPERTY
         // POST: api/Properties
-        // =====================================================
+       
 
         [HttpPost]
         [Authorize(Roles = "Agent,Admin")]
@@ -167,10 +166,10 @@ namespace RealEstate.API.Controllers
                 });
         }
 
-        // =====================================================
+       
         // UPDATE PROPERTY
         // PUT: api/Properties/1
-        // =====================================================
+       
 
         [HttpPut("{id:int}")]
         [Authorize(Roles = "Agent,Admin")]
@@ -226,11 +225,10 @@ namespace RealEstate.API.Controllers
             });
         }
 
-        // =====================================================
+        
         // DELETE PROPERTY
         // DELETE: api/Properties/1
-        // =====================================================
-
+       
         [HttpDelete("{id:int}")]
         [Authorize(Roles = "Agent,Admin")]
         public async Task<IActionResult> Delete(int id)
@@ -288,10 +286,10 @@ namespace RealEstate.API.Controllers
             });
         }
 
-        // =====================================================
+        
         // UPLOAD IMAGES
         // POST: api/Properties/{propertyId}/images
-        // =====================================================
+        
 
         [HttpPost("{propertyId:int}/images")]
         [Authorize(Roles = "Agent,Admin")]
@@ -390,11 +388,10 @@ namespace RealEstate.API.Controllers
             });
         }
 
-        // =====================================================
+       
         // ADD IMAGE URLS
         // POST: api/Properties/{propertyId}/images/urls
-        // =====================================================
-
+        
         [HttpPost("{propertyId:int}/images/urls")]
         [Authorize(Roles = "Agent,Admin")]
         public async Task<IActionResult> AddImageUrls(int propertyId, [FromBody] AddImageUrlsDto request)
@@ -452,10 +449,10 @@ namespace RealEstate.API.Controllers
             });
         }
 
-        // =====================================================
+        
         // DELETE IMAGE
         // DELETE: api/Properties/{propertyId}/images/{imageId}
-        // =====================================================
+        
 
         [HttpDelete("{propertyId:int}/images/{imageId:int}")]
         [Authorize(Roles = "Agent,Admin")]
@@ -493,10 +490,9 @@ namespace RealEstate.API.Controllers
             return Ok(new { success = true, message = "Image deleted successfully." });
         }
 
-        // =====================================================
+        
         // GET CURRENT USER ID FROM JWT
-        // =====================================================
-
+        
         private int? GetCurrentUserId()
         {
             var userIdClaim =

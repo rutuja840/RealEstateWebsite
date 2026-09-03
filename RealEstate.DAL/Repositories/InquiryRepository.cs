@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using RealEstate.DAL.Data;
 using RealEstate.DAL.Entities;
 using RealEstate.DAL.Interfaces;
@@ -15,10 +15,7 @@ namespace RealEstate.DAL.Repositories
             _context = context;
         }
 
-        // -----------------------------------------
         // Add Inquiry
-        // -----------------------------------------
-
         public async Task<Inquiry> AddAsync(
             Inquiry inquiry)
         {
@@ -29,9 +26,8 @@ namespace RealEstate.DAL.Repositories
             return inquiry;
         }
 
-        // -----------------------------------------
         // Get Inquiry By Id
-        // -----------------------------------------
+       
 
         public async Task<Inquiry?> GetByIdAsync(
             int id)
@@ -47,9 +43,9 @@ namespace RealEstate.DAL.Repositories
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        // -----------------------------------------
+       
         // Get Inquiries For Agent
-        // -----------------------------------------
+       
 
         public async Task<List<Inquiry>>
             GetByAgentIdAsync(int agentId)
@@ -68,9 +64,9 @@ namespace RealEstate.DAL.Repositories
                 .ToListAsync();
         }
 
-        // -----------------------------------------
+      
         // Update Inquiry
-        // -----------------------------------------
+      
 
         public async Task UpdateAsync(
             Inquiry inquiry)
