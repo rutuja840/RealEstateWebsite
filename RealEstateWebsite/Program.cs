@@ -1,6 +1,7 @@
 using RealEstate.API.Extensions;
 using RealEstate.API.Middleware;
 using Serilog;
+using RealEstate.API.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -75,6 +76,9 @@ builder.Services.AddBusinessServices();
 builder.Services.AddJwtAuthentication(
     builder.Configuration);
 
+// SignalR - add real-time
+builder.Services.AddSignalR();
+
 // CORS
 builder.Services.AddCors(options =>
 {
@@ -132,5 +136,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Map SignalR hubs
+app.MapHub<ChatHub>("/hubs/chat");
 
 app.Run();

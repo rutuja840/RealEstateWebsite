@@ -15,6 +15,7 @@ import { EditProperty } from './pages/agent/edit-property/edit-property';
 import { AgentInquiries } from './pages/agent/inquiries/inquiries';
 import { authGuard } from './guards/auth-guard';
 import { agentGuard } from './guards/agent-guard';
+import { Chat } from './pages/chat/chat';
 
 
 export const routes: Routes = [
@@ -64,6 +65,12 @@ export const routes: Routes = [
   {
     path: 'profile',
     component: Profile,
+    canActivate: [authGuard]
+  },
+
+  {
+    path: 'chat/:conversationId',
+    component: Chat,
     canActivate: [authGuard]
   },
 

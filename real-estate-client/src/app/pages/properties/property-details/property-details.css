@@ -503,6 +503,17 @@
   cursor: pointer;
 }
 
+.chat-agent-btn {
+  display: block;
+  margin-top: .7rem;
+  padding: .9rem 1rem;
+  border: 1px solid #111827;
+  color: #111827;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 700;
+}
+
 .inquiry-form {
   margin-top: 1.2rem;
   display: grid;

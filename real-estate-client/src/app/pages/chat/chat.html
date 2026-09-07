@@ -1,0 +1,42 @@
+<main class="chat-page">
+  <header class="chat-header">
+    <div>
+      <span class="eyebrow">DIRECT MESSAGE</span>
+      <h1>Chat with your agent</h1>
+      <p>Conversation {{ conversationId }}</p>
+    </div>
+    <a routerLink="/properties" class="back-link">Back to properties</a>
+  </header>
+
+  @if (connecting) {
+    <p class="chat-status">Connecting to chat...</p>
+  } @else if (errorMessage && !messages.length) {
+    <section class="chat-error">
+      <p>{{ errorMessage }}</p>
+      <button type="button" (click)="retryConnection()">Retry connection</button>
+    </section>
+  } @else {
+    <section class="chat-window" aria-live="polite">
+      @if (!messages.length) {
+        <p class="chat-status">No messages yet. Start the conversation.</p>
+      }
+      @for (message of messages; track message.id || message.sentAt + message.content) {
+        <article class="message" [class.mine]="message.isMine">
+          <span class="message-author">{{ message.isMine ? 'You' : (message.senderName || 'Agent') }}</span>
+          <p>{{ message.content }}</p>
+          <time>{{ message.sentAt | date:'shortTime' }}</time>
+        </article>
+      }
+    </section>
+
+    @if (errorMessage) {
+      <p class="send-error">{{ errorMessage }}</p>
+    }
+
+    <form class="composer" (ngSubmit)="send()">
+      <label class="sr-only" for="message-input">Message</label>
+      <input id="message-input" name="message" [(ngModel)]="draft" placeholder="Write a message..." autocomplete="off">
+      <button type="submit" [disabled]="sending || !draft.trim()">{{ sending ? 'Sending...' : 'Send' }}</button>
+    </form>
+  }
+</main>

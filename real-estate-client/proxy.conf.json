@@ -8,5 +8,11 @@
     "target": "https://localhost:7056",
     "secure": false,
     "changeOrigin": true
+  },
+  "/hubs/chat": {
+    "target": "https://localhost:7056",
+    "secure": false,
+    "changeOrigin": true,
+    "ws": true
   }
 }

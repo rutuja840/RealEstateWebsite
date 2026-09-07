@@ -29,7 +29,11 @@
  
   <!-- SEARCH PANEL -->
   
-  <section class="search-panel">
+  <button class="filter-toggle" type="button" (click)="showFilters = !showFilters" [attr.aria-expanded]="showFilters">
+    {{ showFilters ? 'Hide filters' : 'Show filters' }}
+  </button>
+
+  <section class="search-panel" [class.filters-hidden]="!showFilters">
 
     <div class="search-title">
 
@@ -243,6 +247,11 @@
     </div>
 
 
+    <div class="field">
+      <label for="amenities-filter">Amenity</label>
+      <input id="amenities-filter" type="text" [(ngModel)]="filters.amenities" placeholder="Pool, parking...">
+    </div>
+
     <!-- BUTTONS -->
 
     <div class="search-actions">
@@ -290,6 +299,21 @@
         Properties Found
       </h2>
 
+    </div>
+
+    <label class="sort-control">
+      <span>Sort by</span>
+      <select [(ngModel)]="sortBy" aria-label="Sort properties">
+        <option value="newest">Newest listed</option>
+        <option value="price-low">Price: low to high</option>
+        <option value="price-high">Price: high to low</option>
+        <option value="area">Largest area</option>
+      </select>
+    </label>
+
+    <div class="view-controls" aria-label="Property view">
+      <button type="button" [class.active]="viewMode === 'list'" (click)="viewMode = 'list'">List</button>
+      <button type="button" [class.active]="viewMode === 'map'" (click)="viewMode = 'map'">Map</button>
     </div>
 
   </section>
@@ -386,10 +410,23 @@
 
   @else {
 
+    @if (compareProperties.length > 0) {
+      <section class="compare-bar">
+        <span>{{ compareProperties.length }} selected for comparison</span>
+        <button type="button" (click)="openCompare()" [disabled]="compareProperties.length < 2">Compare now</button>
+        <button type="button" (click)="compareIds.clear()">Clear selection</button>
+      </section>
+    }
+
+    @if (viewMode === 'map') {
+      <div class="map-view">
+        <app-property-map [markers]="mapMarkers" [zoom]="4"></app-property-map>
+      </div>
+    } @else {
     <div class="property-grid">
 
      @for (
-  property of propertyList;
+  property of displayedProperties;
   track property.id
 ) {
         <article class="property-card">
@@ -408,6 +445,20 @@
             <span class="status">
               {{ getStatus(property) }}
             </span>
+
+            <button
+              type="button"
+              class="image-favorite-btn"
+              (click)="toggleFavorite(property)"
+              [class.active]="favorites.has(property.id)"
+              [attr.aria-label]="favorites.has(property.id) ? 'Remove from favorites' : 'Add to favorites'"
+            >
+              {{ favorites.has(property.id) ? '♥' : '♡' }}
+            </button>
+
+            <button type="button" class="quick-view-btn" (click)="openQuickView(property)">
+              Quick view
+            </button>
 
           </div>
 
@@ -470,19 +521,15 @@
 
 
               <div class="property-actions">
-
                 <button
                   type="button"
-                  class="favorite-btn"
-                  (click)="toggleFavorite(property)"
-                  [class.active]="favorites.has(property.id)"
+                  class="compare-btn"
+                  [class.active]="compareIds.has(property.id)"
+                  (click)="toggleCompare(property)"
+                  [disabled]="!compareIds.has(property.id) && compareIds.size >= 3"
                 >
-
-                  {{ favorites.has(property.id) ? '♥' : '♡' }}
-
+                  {{ compareIds.has(property.id) ? 'Compared' : 'Compare' }}
                 </button>
-
-
                 <a
                   [routerLink]="[
                     '/properties',
@@ -506,7 +553,58 @@
       }
 
     </div>
+    }
 
+  }
+
+  @if (quickViewProperty; as property) {
+    <div class="modal-backdrop" (click)="closeQuickView()">
+      <section class="quick-view-modal" role="dialog" aria-modal="true" aria-label="Property quick view" (click)="$event.stopPropagation()">
+        <button type="button" class="modal-close" (click)="closeQuickView()" aria-label="Close quick view">×</button>
+        <div class="quick-view-image">
+          <img [src]="quickViewImages()[quickViewImageIndex] || imageFor(property)" [alt]="property.title">
+          @if (quickViewImages().length > 1) {
+            <button type="button" class="gallery-arrow previous" (click)="showQuickViewImage(-1)" aria-label="Previous image">‹</button>
+            <button type="button" class="gallery-arrow next" (click)="showQuickViewImage(1)" aria-label="Next image">›</button>
+          }
+        </div>
+        <div class="quick-view-content">
+          <span class="property-type">{{ property.propertyType || property.propertyTypeName || 'PROPERTY' }}</span>
+          <h2>{{ property.title }}</h2>
+          <p class="location">📍 {{ getLocation(property) }}</p>
+          <strong>{{ property.price | currency:'INR':'symbol':'1.0-0' }}</strong>
+          <a class="search-btn" [routerLink]="['/properties', property.id]" (click)="closeQuickView()">View full details →</a>
+        </div>
+      </section>
+    </div>
+  }
+
+  @if (showCompare) {
+    <div class="modal-backdrop" (click)="closeCompare()">
+      <section class="compare-modal" role="dialog" aria-modal="true" aria-label="Compare properties" (click)="$event.stopPropagation()">
+        <button type="button" class="modal-close" (click)="closeCompare()" aria-label="Close comparison">×</button>
+        <h2>Compare properties</h2>
+        <div class="compare-table-wrap">
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>Feature</th>
+                @for (property of compareProperties; track property.id) {
+                  <th>{{ property.title }}</th>
+                }
+              </tr>
+            </thead>
+            <tbody>
+              <tr><th>Price</th>@for (property of compareProperties; track property.id) {<td>{{ property.price | currency:'INR':'symbol':'1.0-0' }}</td>}</tr>
+              <tr><th>Area</th>@for (property of compareProperties; track property.id) {<td>{{ property.area }} {{ property.areaUnit || 'sq.ft' }}</td>}</tr>
+              <tr><th>Bedrooms</th>@for (property of compareProperties; track property.id) {<td>{{ property.bedrooms }}</td>}</tr>
+              <tr><th>Bathrooms</th>@for (property of compareProperties; track property.id) {<td>{{ property.bathrooms }}</td>}</tr>
+              <tr><th>Location</th>@for (property of compareProperties; track property.id) {<td>{{ getLocation(property) }}</td>}</tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
   }
 
 </div>
