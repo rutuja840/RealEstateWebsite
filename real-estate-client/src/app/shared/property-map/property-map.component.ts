@@ -106,7 +106,7 @@ export class PropertyMapComponent implements AfterViewInit, OnChanges, OnDestroy
 
     points.forEach((point) => {
       L.marker([point.latitude, point.longitude])
-        .bindPopup(point.title)
+        .bindPopup(this.createPopupContent(point))
         .addTo(this.markerLayer!);
     });
 
@@ -117,6 +117,24 @@ export class PropertyMapComponent implements AfterViewInit, OnChanges, OnDestroy
     } else {
       this.map.setView([points[0].latitude, points[0].longitude], this.zoom);
     }
+  }
+
+  private createPopupContent(point: MapMarker): HTMLElement {
+    const content = document.createElement('div');
+    const title = document.createElement('strong');
+    title.textContent = point.title;
+    content.appendChild(title);
+
+    const mapsLink = document.createElement('a');
+    mapsLink.href = `https://www.google.com/maps/search/?api=1&query=${point.latitude},${point.longitude}`;
+    mapsLink.target = '_blank';
+    mapsLink.rel = 'noopener noreferrer';
+    mapsLink.textContent = 'Open in Google Maps';
+    mapsLink.style.display = 'block';
+    mapsLink.style.marginTop = '8px';
+    content.appendChild(mapsLink);
+
+    return content;
   }
 
   private resolvePoints(): MapMarker[] {

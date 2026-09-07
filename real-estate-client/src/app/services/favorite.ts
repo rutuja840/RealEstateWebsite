@@ -17,7 +17,7 @@ export class FavoriteService {
   }
 
   add(propertyId: number): Observable<FavoriteModel> {
-    return this.http.post<FavoriteModel>(`${this.apiUrl}/${propertyId}`, {});
+    return this.http.post<FavoriteModel>(`${this.apiUrl}/${propertyId}`, { propertyId });
   }
 
   remove(propertyId: number): Observable<void> {

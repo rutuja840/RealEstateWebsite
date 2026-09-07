@@ -358,6 +358,16 @@
                 [zoom]="14"
               ></app-property-map>
             </div>
+            @if (googleMapsUrl(); as mapsUrl) {
+              <a
+                class="map-button"
+                [href]="mapsUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Open exact location in Google Maps
+              </a>
+            }
           </div>
 
         </div>
@@ -393,6 +403,13 @@
           >
             {{ showInquiryForm ? 'Hide Form' : 'Contact Agent' }}
           </button>
+
+          <a
+            class="chat-agent-btn"
+            [routerLink]="['/chat', property.id]"
+          >
+            Chat with Agent
+          </a>
 
           @if (showInquiryForm) {
             <form class="inquiry-form" [formGroup]="inquiryForm" (ngSubmit)="submitInquiry()">

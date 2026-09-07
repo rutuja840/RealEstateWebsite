@@ -8,6 +8,7 @@ import { Property, PropertyFilters } from '../../../models/property';
 import { PropertyService } from '../../../services/property';
 import { FavoriteService } from '../../../services/favorite';
 import { AuthService } from '../../../services/auth';
+import { PropertyMapComponent, MapMarker } from '../../../shared/property-map/property-map.component';
 
 @Component({
   selector: 'app-property-list',
@@ -16,7 +17,8 @@ import { AuthService } from '../../../services/auth';
   imports: [
     CommonModule,
     FormsModule,
-    RouterLink
+    RouterLink,
+    PropertyMapComponent
   ],
 
   templateUrl: './property-list.html',
@@ -39,7 +41,8 @@ export class PropertyList implements OnInit {
     maxPrice: null as number | null,
     bedrooms: undefined as number | undefined,
     bathrooms: undefined as number | undefined,
-    furnishedStatus: ''
+    furnishedStatus: '',
+    amenities: ''
   };
 
  
@@ -47,6 +50,8 @@ export class PropertyList implements OnInit {
   
 
   properties: Property[] = [];
+
+  showCompare = false;
 
   favorites = new Set<number>();
 
@@ -56,85 +61,61 @@ export class PropertyList implements OnInit {
 
   favoriteError = '';
 
- 
-  // SAFE PROPERTY LIST
-  
+  sortBy: 'newest' | 'price-low' | 'price-high' | 'area' = 'newest';
+  viewMode: 'list' | 'map' = 'list';
+  showFilters = true;
+  compareIds = new Set<number>();
+  quickViewProperty: Property | null = null;
+  quickViewImageIndex = 0;
 
   get propertyList(): Property[] {
-
-    return Array.isArray(this.properties)
-      ? this.properties
-      : [];
-
+    return Array.isArray(this.properties) ? this.properties : [];
   }
 
-  
-  // INIT
-  
+  get displayedProperties(): Property[] {
+    const filteredProperties = this.propertyList.filter(property => {
+      const amenities = property.amenities ?? [];
+      return !this.filters.amenities || amenities.some(amenity =>
+        amenity.toLowerCase().includes(this.filters.amenities.toLowerCase())
+      );
+    });
+
+    return [...filteredProperties].sort((first, second) => {
+      if (this.sortBy === 'price-low') return first.price - second.price;
+      if (this.sortBy === 'price-high') return second.price - first.price;
+      if (this.sortBy === 'area') return second.area - first.area;
+      return (Date.parse(second.createdAt ?? '') || 0) - (Date.parse(first.createdAt ?? '') || 0);
+    });
+  }
+
+  get compareProperties(): Property[] {
+    return this.propertyList.filter(property => this.compareIds.has(property.id));
+  }
+
+  get mapMarkers(): MapMarker[] {
+    return this.displayedProperties
+      .filter(property => property.latitude && property.longitude)
+      .map(property => ({
+        id: property.id,
+        latitude: property.latitude,
+        longitude: property.longitude,
+        title: property.title
+      }));
+  }
 
   ngOnInit(): void {
-
     this.loadProperties();
-
     this.loadFavorites();
-
   }
 
-  
-  // NORMALIZE API RESPONSE
- 
   private normalizeProperties(response: any): Property[] {
-
     console.log('Raw API response:', response);
 
-   
-    // Direct array
-   
-    if (Array.isArray(response)) {
-
-      return response;
-
-    }
-
-    
-    // { data: [...] }
-    
-
-    if (Array.isArray(response?.data)) {
-
-      return response.data;
-
-    }
-
-    
-    // { items: [...] }
-    
-    if (Array.isArray(response?.items)) {
-
-      return response.items;
-
-    }
-
-    
-    // { properties: [...] }
-    
-
-    if (Array.isArray(response?.properties)) {
-
-      return response.properties;
-
-    }
-
-    
-    // { result: [...] }
-    
-    if (Array.isArray(response?.result)) {
-
-      return response.result;
-
-    }
-
-   
+    if (Array.isArray(response)) return response;
+    if (Array.isArray(response?.data)) return response.data;
+    if (Array.isArray(response?.items)) return response.items;
+    if (Array.isArray(response?.properties)) return response.properties;
+    if (Array.isArray(response?.result)) return response.result;
     // { data: { items: [...] } }
    
 
@@ -227,9 +208,7 @@ export class PropertyList implements OnInit {
             this.normalizeProperties(response);
 
           this.properties =
-            Array.isArray(result)
-              ? result
-              : [];
+            this.normalizePropertyImages(result);
 
           console.log(
             'Normalized properties:',
@@ -268,144 +247,39 @@ export class PropertyList implements OnInit {
  
 
   search(): void {
-
-    console.log(
-      'Search button clicked'
-    );
-
-    console.log(
-      'Current filters:',
-      this.filters
-    );
-
-    this.loading = true;
-
     this.errorMessage = '';
 
-    const filters: PropertyFilters = {
+    const matchingProperties = this.propertyList.filter(property => {
+      const location = [property.title, property.location, property.city, property.address]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase();
+      const propertyType = this.getPropertyType(property).toLowerCase();
+      const furnishedStatus = (property.furnishedStatus ?? '').toLowerCase();
+      const amenities = (property.amenities ?? []).join(' ').toLowerCase();
+      const searchLocation = this.filters.location.trim().toLowerCase();
+      const searchType = this.filters.propertyType.trim().toLowerCase();
+      const searchFurnishedStatus = this.filters.furnishedStatus.trim().toLowerCase();
+      const searchAmenity = this.filters.amenities.trim().toLowerCase();
 
-      location:
-        this.filters.location?.trim() || undefined,
+      return (!searchLocation || location.includes(searchLocation))
+        && (!searchType || propertyType === searchType)
+        && (this.filters.minPrice === null || property.price >= this.filters.minPrice)
+        && (this.filters.maxPrice === null || property.price <= this.filters.maxPrice)
+        && (this.filters.bedrooms === undefined || property.bedrooms >= this.filters.bedrooms)
+        && (this.filters.bathrooms === undefined || property.bathrooms >= this.filters.bathrooms)
+        && (!searchFurnishedStatus || furnishedStatus === searchFurnishedStatus)
+        && (!searchAmenity || amenities.includes(searchAmenity));
+    });
 
-      propertyType:
-        this.filters.propertyType || undefined,
+    this.properties = matchingProperties;
+    if (!matchingProperties.length) {
+      this.errorMessage = 'No properties match your search.';
+    }
 
-      minPrice:
-        this.filters.minPrice !== null &&
-        this.filters.minPrice > 0
-          ? this.filters.minPrice
-          : undefined,
-
-      maxPrice:
-        this.filters.maxPrice !== null &&
-        this.filters.maxPrice > 0
-          ? this.filters.maxPrice
-          : undefined,
-
-      bedrooms:
-        this.filters.bedrooms !== undefined
-          ? this.filters.bedrooms
-          : undefined,
-
-      bathrooms:
-        this.filters.bathrooms !== undefined
-          ? this.filters.bathrooms
-          : undefined,
-
-      furnishedStatus:
-        this.filters.furnishedStatus || undefined
-
-    };
-
-    console.log(
-      'Search filters sent to API:',
-      filters
-    );
-
-    const hasFilters =
-      Object.values(filters)
-        .some(
-          value =>
-            value !== undefined
-        );
-
-    console.log(
-      'Has filters:',
-      hasFilters
-    );
-
-    const request =
-      hasFilters
-        ? this.propertyService.searchProperties(filters)
-        : this.propertyService.getAllProperties();
-
-    request
-      .pipe(
-
-        timeout({
-          first: 10000
-        }),
-
-        finalize(() => {
-
-          console.log(
-            'Search request completed'
-          );
-
-          this.loading = false;
-
-        })
-
-      )
-      .subscribe({
-
-        next: (response: any) => {
-
-          console.log(
-            'Search API response:',
-            response
-          );
-
-          const result =
-            this.normalizeProperties(response);
-
-          this.properties =
-            Array.isArray(result)
-              ? result
-              : [];
-
-          console.log(
-            'Search normalized properties:',
-            this.properties
-          );
-
-          if (this.properties.length === 0) {
-
-            this.errorMessage =
-              'No properties match your search.';
-
-          }
-
-        },
-
-        error: (error) => {
-
-          console.error(
-            'Property search error:',
-            error
-          );
-
-          this.properties = [];
-
-          this.errorMessage =
-            'Unable to search properties right now.';
-
-          this.loading = false;
-
-        }
-
-      });
-
+  }
+  getPropertyType(property: Property) {
+    return property.propertyType || property.propertyTypeName || 'Property';
   }
 
  
@@ -428,7 +302,8 @@ export class PropertyList implements OnInit {
 
       bathrooms: undefined,
 
-      furnishedStatus: ''
+      furnishedStatus: '',
+      amenities: ''
 
     };
 
@@ -623,6 +498,85 @@ export class PropertyList implements OnInit {
 
   
   // IMAGE
+
+  toggleCompare(property: Property): void {
+    if (this.compareIds.has(property.id)) {
+      this.compareIds.delete(property.id);
+    } else if (this.compareIds.size < 3) {
+      this.compareIds.add(property.id);
+    }
+  }
+
+  openCompare(): void {
+    if (this.compareProperties.length >= 2) {
+      this.showCompare = true;
+    }
+  }
+
+  closeCompare(): void {
+    this.showCompare = false;
+  }
+
+  openQuickView(property: Property): void {
+    this.quickViewProperty = property;
+    this.quickViewImageIndex = 0;
+  }
+
+  closeQuickView(): void {
+    this.quickViewProperty = null;
+  }
+
+  quickViewImages(): string[] {
+    return this.quickViewProperty ? this.imagesFor(this.quickViewProperty) : [];
+  }
+
+  showQuickViewImage(direction: number): void {
+    const imageCount = this.quickViewImages().length;
+    if (imageCount > 1) {
+      this.quickViewImageIndex = (this.quickViewImageIndex + direction + imageCount) % imageCount;
+    }
+  }
+
+  imagesFor(property: Property): string[] {
+    return [...new Set([
+      property.imageUrl ?? '',
+      ...(property.images ?? [])
+    ].filter((image): image is string => Boolean(image)))];
+  }
+
+  private normalizePropertyImages(properties: Property[]): Property[] {
+    return properties.map(property => {
+      const propertyData = property as Property & {
+        imageURL?: unknown;
+        imageUrls?: unknown;
+      };
+      const images = Array.isArray(propertyData.images)
+        ? propertyData.images.map(image => this.imageUrlFrom(image)).filter(Boolean)
+        : [];
+      const primaryImage = this.imageUrlFrom(
+        propertyData.imageUrl ?? propertyData.imageURL
+      );
+
+      return {
+        ...property,
+        imageUrl: primaryImage || images[0] || '',
+        images
+      };
+    });
+  }
+
+  private imageUrlFrom(value: unknown): string {
+    if (typeof value === 'string' && value.trim()) {
+      return value.trim();
+    }
+
+    if (value && typeof value === 'object') {
+      const image = value as { imageUrl?: unknown; url?: unknown };
+      return this.imageUrlFrom(image.imageUrl ?? image.url);
+    }
+
+    return '';
+  }
  
   imageFor(
     property: Property

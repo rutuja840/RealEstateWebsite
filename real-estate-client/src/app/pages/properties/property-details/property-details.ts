@@ -668,6 +668,20 @@ export class PropertyDetails implements OnInit {
     );
   }
 
+  googleMapsUrl(): string | null {
+    if (
+      !this.property ||
+      !Number.isFinite(this.property.latitude) ||
+      !Number.isFinite(this.property.longitude) ||
+      this.property.latitude === 0 ||
+      this.property.longitude === 0
+    ) {
+      return null;
+    }
+
+    return `https://www.google.com/maps/search/?api=1&query=${this.property.latitude},${this.property.longitude}`;
+  }
+
  
   // STATUS
   

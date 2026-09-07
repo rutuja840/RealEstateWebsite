@@ -10,6 +10,7 @@
 	} @else if (errorMessage) {
 		<div class="status error">
 			<p>{{ errorMessage }}</p>
+			<button type="button" (click)="loadFavorites()">Try again</button>
 			<a routerLink="/login">Log in again</a>
 		</div>
 	} @else if (!favorites.length) {
